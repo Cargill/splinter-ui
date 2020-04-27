@@ -41,3 +41,6 @@ jobs:
     - stage: Lint Profile Sapling
       script:
         - docker-compose -f docker/compose/run-lint.yaml up --abort-on-container-exit lint-profile-sapling
+    - stage: Lint Register-login Sapling
+      script:
+        - docker-compose -f docker/compose/run-lint.yaml up --abort-on-container-exit lint-register-login-sapling
