@@ -12,27 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-version: "3.7"
-
-services:
-
-  lint-canopy-app:
-    build:
-      context: ../..
-      dockerfile: docker/test-app
-    image: canopy-app:${ISOLATION_ID}
-    command: npm run lint
-
-  lint-circuits-sapling:
-    build:
-      context: ../../saplings/circuits
-      dockerfile: ./test/Dockerfile
-    image: circuit-sapling:${ISOLATION_ID}
-    command: npm run lint
-
-  lint-profile-sapling:
-    build:
-      context: ../../saplings/profile
-      dockerfile: ./test/Dockerfile
-    image: profile-sapling:${ISOLATION_ID}
-    command: npm run lint
+saplings/*
+build/*
+sapling-dev-server/*
+scripts/build.js
