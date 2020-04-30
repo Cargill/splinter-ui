@@ -16,11 +16,18 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { registerApp } from 'splinter-saplingjs';
+import { registerApp, getUser } from 'splinter-saplingjs';
+import { createBrowserHistory } from 'history';
 
 import './index.css';
 import App from './App';
 
+const history = createBrowserHistory();
+
 registerApp(domNode => {
-  ReactDOM.render(<App />, domNode);
+  if (getUser()) {
+    ReactDOM.render(<App />, domNode);
+  } else {
+    history.push('/login');
+  }
 });
