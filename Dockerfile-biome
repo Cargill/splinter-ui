@@ -56,6 +56,11 @@ RUN cd /saplings/circuits && \
   npm install && \
   npm run deploy
 
+ENV PUBLIC_URL ${PUBLIC_URL_PARTIAL}/contracts
+RUN cd /saplings/contracts && \
+  npm install && \
+  npm run deploy
+
 WORKDIR sapling-dev-server
 ARG REPO_VERSION
 RUN tar c -z . -f ../splinter_saplings_v${REPO_VERSION}.tar.gz
