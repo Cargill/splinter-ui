@@ -5,8 +5,8 @@
   "scripts": {
     "build": "webpack",
     "bundle": "webpack --mode=development",
-    "package": "rm -rf package && mkdir package && cp -r ./build/static package && tar -jcvf contract_$npm_config_sapling_version.sapling package",
-    "add-to-canopy": "mkdir -p ../../sapling-dev-server/contracts && cp -r ./build/static ../../sapling-dev-server/contracts",
+    "package": "rm -rf package && mkdir package && cp -r ./build/static package && cp -r images package && tar -jcvf contract_$npm_config_sapling_version.sapling package",
+    "add-to-canopy": "mkdir -p ../../sapling-dev-server/contracts && cp -r ./build/static ../../sapling-dev-server/contracts && cp -r images ../../sapling-dev-server/contracts",
     "deploy": "npm run build && npm run add-to-canopy",
     "deploy-local": "npm run bundle && npm run add-to-canopy",
     "watch": "nodemon --ext js,scss,ts,css --watch src --exec npm run deploy-local",
