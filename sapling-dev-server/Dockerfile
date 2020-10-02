@@ -43,6 +43,11 @@ RUN cd /saplings/circuits && \
   npm install && \
   npm run deploy
 
+ENV PUBLIC_URL ${PUBLIC_URL_PARTIAL}/contracts
+RUN cd /saplings/contracts && \
+  npm install && \
+  npm run deploy
+
 FROM httpd:2.4 as prod-stage
 
 RUN echo "\
