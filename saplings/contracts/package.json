@@ -60,8 +60,16 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.31",
+    "@fortawesome/free-solid-svg-icons": "^5.15.0",
+    "@fortawesome/react-fontawesome": "^0.1.11",
+    "classnames": "^2.2.6",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "splinter-saplingjs": "github:cargill/splinter-saplingjs#master"
+    "protobufjs": "^6.8.9",
+    "react-router-dom": "^5.2.0",
+    "splinter-saplingjs": "github:cargill/splinter-saplingjs#master",
+    "transact-sdk-javascript": "github:hyperledger/transact-sdk-javascript#master"
   }
 }
