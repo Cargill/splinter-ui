@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import './App.css';
+.step-header {
+  height: 10%;
 
-import { UploadContractForm } from './components/forms/upload_contract';
+  .step-title {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+  }
 
-function App() {
-  return (
-    <div className="contracts-app">
-      <UploadContractForm />
-    </div>
-  );
+  .help-text {
+    color: var(--color-grey);
+    font-size: 0.8rem;
+  }
 }
-
-export default App;
