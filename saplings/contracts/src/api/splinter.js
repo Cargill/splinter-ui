@@ -38,20 +38,31 @@ export const getCircuit = async circuitId => {
     throw Error(result.data);
 };
 
-export const createCallPayload = async () => {
-  var fs = require('browserify-fs');
-  let fileBuffer = null;
-  fs.readFile('../../contract_wasm/intkey-multiply.wasm', 'utf-8', function (err,data) {
-    if (err) {
-      return console.log(err);
-    }
-    fileBuffer = data;
-    }
-  );
+export const getNodeRegistry = async () => {
+  const result = await get(`${splinterURL}/registry/nodes`);
+
+  if (result.ok) {
+    const response = new NodeRegistryResponse(result.json);
+    return response.data;
+  }
+  throw Error(result.data);
+};
+
+export const createCallPayload = async (fileBuffer) => {
+  // var fs = require('browserify-fs');
+  // let fileBuffer = null;
+  // fs.readFile('../../contract_wasm/intkey-multiply.wasm', 'utf-8', function (err,data) {
+  //   if (err) {
+  //     return console.log(err);
+  //   }
+  //   fileBuffer = data;
+  //   }
+  // );
+  console.log("reached createcallpayload");
 
   const payload_result = makePayload(
-    "0a99cab0c5c26e96aad52cfa3dbbf947b16fa010fbf0ed7bcad4b73352c0779a",
-    "0219a3f066fb244c1f7d4953882ca6a8641f91ace5baa1ce6b5b605c470b5e505e",
+    "701055fadc7d68014ab9078f357655f3ab412fc1f0f323726c2eef7216423ee9",
+    "0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277",
     '00ec03',
     'intkey_multiply',
     true,
@@ -60,10 +71,12 @@ export const createCallPayload = async () => {
     ['00ec03', '1cf126', 'cad11d'],
     '1.0',
     fileBuffer, 
-    ['0a99cab0c5c26e96aad52cfa3dbbf947b16fa010fbf0ed7bcad4b73352c0779a', '0219a3f066fb244c1f7d4953882ca6a8641f91ace5baa1ce6b5b605c470b5e505e']
+    ['0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277', '03db5a394a49a984bf96f800200ebaf70a513b0f004baf22aca35387fb68b7f7c7']
   );
+  console.log("reached after makepayload");
   try {
     await postSmartContractPayload(payload_result);
+    console.log("Finished API Call");
   } catch (e) {
     console.log(e);
   }
@@ -71,8 +84,8 @@ export const createCallPayload = async () => {
 };
 
 export const postSmartContractPayload = async payload => {
-  const result = await post(`${splinterURL}/scabbard/aA3st-MV0eh/abcd/batches`, payload);
-
+  console.log("Reached postSmartContractPayload");
+  const result = await post(`${splinterURL}/scabbard/TTmc6-r2ZKR/abcd/batches`, payload);
   if (!result.ok) {
     throw Error(result.json.message);
   }
