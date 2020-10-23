@@ -10,43 +10,31 @@ import 'rc-checkbox/assets/index.css';
 
 import './index.scss';
 
-const NamespaceForm = () => {
-  const [readState, setReadState] = useState(false);
-  const [writeState, setWriteState] = useState(false);
-
-  return (
-    <div>
-      <TextField name='Namespace Registry Name' label='Namespace Registry Name' />
-      <span style={{marginTop: '5px'}} />
-      <ListBoxSelect label='Select Owners of the Namespace' 
-        name='abcd' onChange={(event) => console.log(event)} options={[
-        { value: 'User 1', content: 'User 1' },
-        { value: 'User 2', content: 'User 2' },
-        { value: 'User 3', content: 'User 3' }
-        ]} isMulti={true} />
-      <span className='label' style={{marginLeft: '16px', marginTop: '5px'}}>Set Permissions for the Namespace</span>
-      <div style={{flexDirection: 'row', marginTop: '10px' }}>
-        <Checkbox checked={readState} onChange={() => setReadState(!readState)} 
-          style={{margin: '0 15px'}} /> Read
-        <Checkbox checked={writeState} onChange={() => setWriteState(!writeState)} 
-          style={{margin: '0 0 0 15px'}} /> Write
-      </div>
-    </div>
-  )
-}
-
 export function UploadContractForm() {
   const [registries, setRegistries] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedFilename, setSelectedFilename] = useState("");
   const [buffer, setBuffer] = useState(null);
   const [contractRegistryName, setContractRegistryName] = useState("");
+  const [readState, setReadState] = useState(false);
+  const [writeState, setWriteState] = useState(false);
 
   const onFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
     if (event.target.files[0]) {
       setSelectedFilename(event.target.files[0].name);
+      console.log(selectedFilename);
     }
+  }
+  
+  const onReadCheckBoxChange = (event) => {
+    setReadState(event.target.checked);
+    console.log(event.target.checked);
+  }
+
+  const onWriteCheckBoxChange = (event) => {
+    setWriteState(event.target.checked);
+    console.log(event.target.checked);
   }
 
   useEffect(() => {
@@ -102,7 +90,7 @@ export function UploadContractForm() {
           </div>
         </div>
         <div>
-          <FileSelect name='Upload Contract' label='Upload Contract'
+          <FileSelect name='Upload Contract' label='Upload Contract' 
             onChange={onFileChange} />
           <span style={{marginTop: '5px'}} />
           <TextField name='Contract Registry Name' label='Contract Registry Name' value={contractRegistryName}
@@ -117,7 +105,21 @@ export function UploadContractForm() {
           </div>
         </div>
         <div>
-          <NamespaceForm />
+          <TextField name='Namespace Registry Name' label='Namespace Registry Name' />
+          <span style={{marginTop: '5px'}} />
+          <ListBoxSelect label='Select Owners of the Namespace' 
+            name='abcd' onChange={(event) => console.log(event)} options={[
+            { value: 'User 1', content: 'User 1' },
+            { value: 'User 2', content: 'User 2' },
+            { value: 'User 3', content: 'User 3' }
+            ]} isMulti={true} />
+          <span className='label' style={{marginLeft: '16px', marginTop: '5px'}}>Set Permissions for the Namespace</span>
+          <div style={{flexDirection: 'row', marginTop: '10px' }}>
+            <Checkbox onChange={onReadCheckBoxChange} defaultChecked = {readState}
+              style={{margin: '0 15px'}} /> Read
+            <Checkbox onChange={onWriteCheckBoxChange} defaultChecked = {writeState}
+              style={{margin: '0 0 0 15px'}} /> Write
+          </div>
         </div>
       </Step>
     </MultiStepForm>

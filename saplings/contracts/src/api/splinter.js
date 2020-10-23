@@ -49,16 +49,6 @@ export const getNodeRegistry = async () => {
 };
 
 export const createCallPayload = async (fileBuffer) => {
-  // var fs = require('browserify-fs');
-  // let fileBuffer = null;
-  // fs.readFile('../../contract_wasm/intkey-multiply.wasm', 'utf-8', function (err,data) {
-  //   if (err) {
-  //     return console.log(err);
-  //   }
-  //   fileBuffer = data;
-  //   }
-  // );
-  console.log("reached createcallpayload");
 
   const payload_result = makePayload(
     "701055fadc7d68014ab9078f357655f3ab412fc1f0f323726c2eef7216423ee9",
@@ -73,10 +63,8 @@ export const createCallPayload = async (fileBuffer) => {
     fileBuffer, 
     ['0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277', '03db5a394a49a984bf96f800200ebaf70a513b0f004baf22aca35387fb68b7f7c7']
   );
-  console.log("reached after makepayload");
   try {
     await postSmartContractPayload(payload_result);
-    console.log("Finished API Call");
   } catch (e) {
     console.log(e);
   }
@@ -84,7 +72,6 @@ export const createCallPayload = async (fileBuffer) => {
 };
 
 export const postSmartContractPayload = async payload => {
-  console.log("Reached postSmartContractPayload");
   const result = await post(`${splinterURL}/scabbard/TTmc6-r2ZKR/abcd/batches`, payload);
   if (!result.ok) {
     throw Error(result.json.message);
