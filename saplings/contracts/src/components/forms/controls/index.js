@@ -164,7 +164,7 @@ export const FileSelect = ({
         ...props,
         type: 'file',
         name,
-        value: value || ''
+        value: value
       })}
       {children}
     </div>
