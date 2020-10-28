@@ -15,6 +15,7 @@
  */
 import { getSharedConfig } from 'splinter-saplingjs';
 import { get, post } from './requests';
+import { NodeRegistryResponse } from '../data/nodeRegistry';
 
 import { makePayload } from './payload';
 
@@ -38,6 +39,15 @@ export const getCircuit = async circuitId => {
     throw Error(result.data);
 };
 
+export const getNodes = async () => {
+  const result = await get(`${splinterURL}/registry/nodes`);
+
+  if (result.ok) {
+    return result.json;
+  }
+  throw Error(result.data);
+}
+
 export const getNodeRegistry = async () => {
   const result = await get(`${splinterURL}/registry/nodes`);
 
@@ -48,31 +58,44 @@ export const getNodeRegistry = async () => {
   throw Error(result.data);
 };
 
-export const createCallPayload = async (fileBuffer) => {
+export const createCallPayload = async (
+  circuit,
+  fileBuffer,
+  name,
+  version,
+  inputs,
+  ouputs,
+  namespaceName,
+  owners,
+  read,
+  write
+) => {
 
   const payload_result = makePayload(
     "701055fadc7d68014ab9078f357655f3ab412fc1f0f323726c2eef7216423ee9",
     "0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277",
-    '00ec03',
-    'intkey_multiply',
-    true,
-    true,
-    ['00ec03', '1cf126', 'cad11d'],
-    ['00ec03', '1cf126', 'cad11d'],
-    '1.0',
+    namespaceName,
+    name,
+    read,
+    write,
+    inputs,
+    ouputs,
+    version,
     fileBuffer, 
-    ['0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277', '03db5a394a49a984bf96f800200ebaf70a513b0f004baf22aca35387fb68b7f7c7']
+    owners
   );
   try {
-    await postSmartContractPayload(payload_result);
+    await postSmartContractPayload(payload_result, circuit);
   } catch (e) {
     console.log(e);
   }
   
 };
 
-export const postSmartContractPayload = async payload => {
-  const result = await post(`${splinterURL}/scabbard/TTmc6-r2ZKR/abcd/batches`, payload);
+export const postSmartContractPayload = async (payload, circuit) => {
+  const serviceID = 'abcd';
+  const result = await post(`${splinterURL}/scabbard/${circuit}/${serviceID}/batches`, payload);
+  console.log(result);
   if (!result.ok) {
     throw Error(result.json.message);
   }

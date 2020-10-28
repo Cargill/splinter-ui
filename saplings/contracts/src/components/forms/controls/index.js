@@ -73,12 +73,26 @@ export const ListBoxSelect = ({
         menuClassName="listbox-dropdown-placeholder"
         placeholder={selectedOpt.content}
         options={options.map(opt => ({ value: opt.value, label: opt.content }))}
-        onChange={({ value: evtValue }) => {
-          const evt = {
-            preventDefault: () => null,
-            target: { name, value: evtValue }
-          };
-          onChange(evt);
+        onChange={(event) => {
+          if (Array.isArray(event)) {
+            const evt = {
+              preventDefault: () => null,
+              target: { name, value: [], label: [] }
+            };
+            
+            event.forEach((elem) => {
+              evt.target.value.push(elem.value);
+              evt.target.label.push(elem.label);
+            });
+
+            onChange(evt);
+          } else {
+            const evt = {
+              preventDefault: () => null,
+              target: { name, value: event.value }
+            };
+            onChange(evt);
+          }
         }}
         isMulti={isMulti}
       />
@@ -153,7 +167,6 @@ TextField.defaultProps = {
 export const FileSelect = ({
   name,
   label,
-  value,
   error,
   children,
   ...props
@@ -164,7 +177,7 @@ export const FileSelect = ({
         ...props,
         type: 'file',
         name,
-        value: value
+        id: name
       })}
       {children}
     </div>
@@ -174,7 +187,6 @@ export const FileSelect = ({
 FileSelect.propTypes = {
   name: PropTypes.string,
   label: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  value: PropTypes.string,
   error: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   children: PropTypes.oneOfType([
     PropTypes.element,
@@ -185,7 +197,6 @@ FileSelect.propTypes = {
 FileSelect.defaultProps = {
   name: '',
   label: '',
-  value: '',
   error: '',
   children: []
 };
