@@ -31,11 +31,13 @@
 /canopy**/lib
 
 /sapling-dev-server/circuits
+/sapling-dev-server/contracts
 /sapling-dev-server/register-login.js
 /sapling-dev-server/profile
 /sapling-dev-server/oauth-login
 
 /saplings/circuits/src/compiled_protos.json
+/saplings/contracts/src/compiled_protos_contract.json
 
 # misc
 .DS_Store

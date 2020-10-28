@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import './App.css';
-
-import { ToastProvider } from 'react-toast-notifications';
-
-import { UploadContractForm } from './components/forms/upload_contract';
-
-function App() {
-  return (
-    <div className="contracts-app">
-      <ToastProvider>
-        <UploadContractForm />
-      </ToastProvider>
-    </div>
-  );
+function Paging(reponseData) {
+  this.current = reponseData.paging.current;
+  this.offset = reponseData.paging.offset;
+  this.limit = reponseData.paging.limit;
+  this.total = reponseData.paging.total;
+  this.first = reponseData.paging.first;
+  this.prev = reponseData.paging.prev;
+  this.next = reponseData.paging.next;
+  this.last = reponseData.paging.last;
 }
 
-export default App;
+export default Paging;
