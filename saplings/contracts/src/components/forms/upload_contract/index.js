@@ -5,11 +5,13 @@ import { createCallPayload } from '../../../api/splinter';
 import { SelectCircuit } from '../SelectCircuit';
 import { UploadFile } from '../UploadFile';
 import { CreateNamespace } from '../CreateNamespace';
+import { useHistory } from 'react-router-dom';
 
 import 'rc-checkbox/assets/index.css';
 import './index.scss';
 
 export function UploadContractForm() {
+  const history = useHistory();
   const [selectedCircuit, setSelectedCircuit] = useState('');
   const [buffer, setBuffer] = useState(null);
   const [name, setName] = useState('');
@@ -35,6 +37,7 @@ export function UploadContractForm() {
   }
 
   function makeBatchCall() {
+    history.push(`/contracts`);
     console.log(selectedCircuit);
     console.log(buffer);
     console.log(name);
@@ -42,20 +45,20 @@ export function UploadContractForm() {
     console.log(inputs);
     console.log(outputs);
     console.log(contractRegistryName);
-    console.log(registries);
 
-    // createCallPayload(
-    //   selectedCircuit,
-    //   buffer,
-    //   name,
-    //   version,
-    //   inputs,
-    //   outputs,
-    //   namespaceName,
-    //   owners,
-    //   read,
-    //   write
-    // );
+    createCallPayload(
+      selectedCircuit,
+      buffer,
+      name,
+      version,
+      inputs,
+      outputs,
+      namespaceName,
+      owners,
+      read,
+      write
+    );
+    
   }
 
   function validateCircuit() {
@@ -102,8 +105,8 @@ export function UploadContractForm() {
     <MultiStepForm
       formName="Upload Contract"
       handleSubmit={makeBatchCall}
-      handleCancel={() => { console.log('Cancel') }}
-      isStepValidFn={stepNumber => stepValidationFn(stepNumber)} >
+      handleCancel={() => history.push(`/contracts`)} >
+      {/* // isStepValidFn={stepNumber => stepValidationFn(stepNumber)} > */}
       <Step step={1} label="Select Circuit">
         <div className="step-header">
           <div className="step-title">Select Circuit</div>
