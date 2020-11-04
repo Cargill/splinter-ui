@@ -16,94 +16,50 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 
-import { useLocalNodeState } from '../../state/localNode';
-import { Circuit } from '../../data/circuits';
-import { useNodeRegistryState } from '../../state/nodeRegistry';
-
-const proposalStatus = (circuit, nodeID) => {
-  const exclamation = (
-    <span className="status-icon">
-      <FontAwesomeIcon icon="exclamation" />
-    </span>
-  );
-  const awaiting = (
-    <span className="status awaiting-approval">Awaiting approval</span>
-  );
-  return (
-    <div className="proposal-status">
-      {circuit.actionRequired(nodeID) ? (
-        <span className="status action-required">
-          Action required
-          {exclamation}
-        </span>
-      ) : (
-        ''
-      )}
-      {awaiting}
-    </div>
-  );
-};
+import { Contract } from '../../data/contracts';
+// import { useNodeRegistryState } from '../../state/nodeRegistry';
 
 const TableRow = ({ contract }) => {
-  const nodeID = useLocalNodeState();
-  const history = useHistory();
+  // const history = useHistory();
   const maxCountShow = 3;
-
-  const nodes = useNodeRegistryState().filter(
-    node => !!circuit.members.find(id => id === node.identity)
-  );
-
-  const serviceTypeCount = () => {
-    const servicesCount = Object.entries(circuit.listServiceTypesCount());
-    return servicesCount.map(([serviceType, count], index) => {
-      if (index < maxCountShow) {
-        return `${serviceType} (${count}) \n`;
-      }
-      if (index === maxCountShow) {
-        return `and ${servicesCount.length - maxCountShow} more...`;
-      }
-      return '';
-    });
+  const name = () => {
+    return contract.name;
   };
 
-  const members = () => {
-    return nodes.map((node, index) => {
+  const version = () => {
+    return contract.version;
+  }
+
+  const input = (inputs) => {
+    return inputs.map((input, index) => {
       if (index < maxCountShow) {
-        return `${node.displayName} \n`;
+        return `${input} \n`;
       }
       if (index === maxCountShow) {
-        return `and ${nodes.length - maxCountShow} more...`;
+        return `and ${inputs.length - maxCountShow} more...`;
       }
-      return '';
     });
-  };
+  }
 
   return (
     <tr
       className="table-row"
-      onClick={() => {
-        history.push(`/circuits/${circuit.id}`);
-      }}
+      // onClick={() => {
+      //   history.push(`/circuits/${circuit.id}`);
+      // }}
     >
-      <td className="text-highlight">{circuit.id}</td>
-      <td>{members()}</td>
-      <td>{serviceTypeCount()}</td>
-      <td>{circuit.managementType}</td>
-      <td className={circuit.comments === 'N/A' ? 'text-grey' : ''}>
-        <div className="circuit-comment">{circuit.comments}</div>
-      </td>
-      <td>
-        {circuit.awaitingApproval() ? proposalStatus(circuit, nodeID) : ''}
-      </td>
+      {/* <td className="text-highlight">{circuit.id}</td> */}
+      <td>{name()}</td>
+      <td>{input(contract.inputs)}</td>
+      <td>{version()}</td>
     </tr>
   );
 };
 
 TableRow.propTypes = {
-  circuit: PropTypes.instanceOf(Circuit).isRequired
+  contract: PropTypes.instanceOf(Contract).isRequired
 };
 
 export default TableRow;

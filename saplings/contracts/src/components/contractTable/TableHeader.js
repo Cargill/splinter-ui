@@ -18,7 +18,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Circuit } from '../../data/circuits';
+import { Contract } from '../../data/contracts';
 
 const TableHeader = ({ dispatch, contracts }) => {
   const [sortedBy, setSortedBy] = useState({
@@ -74,15 +74,6 @@ const TableHeader = ({ dispatch, contracts }) => {
           Contract Name
           {sortSymbol('contractname')}
         </th>
-        
-        <th
-          onClick={() => {
-            sortContractsBy('circuitID', !sortedBy.ascendingOrder);
-          }}
-        >
-          Circuit ID
-          {sortSymbol('circuitID')}
-        </th>
         <th
           onClick={() => {
             sortContractsBy('memberCount', !sortedBy.ascendingOrder);
@@ -106,7 +97,7 @@ const TableHeader = ({ dispatch, contracts }) => {
 
 TableHeader.propTypes = {
   dispatch: PropTypes.func.isRequired,
-  contracts: PropTypes.arrayOf(PropTypes.instanceOf(Circuit)).isRequired
+  contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired
 };
 
 export default TableHeader;

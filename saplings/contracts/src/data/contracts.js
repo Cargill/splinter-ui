@@ -14,45 +14,14 @@
  * limitations under the License.
  */
 
-function Circuit(data) {
+function Contract(data) {
     if (!(this instanceof Contract)) {
-      return new Circuit(data);
+      return new Contract(data);
     }
-    if (data.proposal_type) {
-      this.id = data.circuit_id;
-      this.status = 'Pending';
-      this.members = data.circuit.members.map(member => {
-        return member.node_id;
-      });
-      this.roster = data.circuit.roster.map(s => new Service(s));
-      this.managementType = data.circuit.management_type;
-      this.applicationMetadata = metadataFromJson(
-        data.circuit.application_metadata
-      );
-      this.encodedApplicationData = data.circuit.application_metadata;
-      this.comments = data.circuit.comments;
-      this.proposal = {
-        votes: data.votes,
-        requester: data.requester,
-        requesterNodeID: data.requester_node_id,
-        proposalType: data.proposal_type,
-        circuitHash: data.circuit_hash
-      };
-    } else {
-      this.id = data.id;
-      this.status = 'Active';
-      this.members = data.members;
-      this.roster = data.roster.map(s => new Service(s));
-      this.managementType = data.management_type;
-      this.applicationMetadata = metadataFromJson(data.application_metadata);
-      this.encodedApplicationData = data.application_metadata;
-      this.comments = 'N/A';
-      this.proposal = {
-        votes: [],
-        requester: '',
-        requesterNodeID: '',
-        proposalType: '',
-        circuitHash: ''
-      };
-    }
+    this.name = data.name;
+    this.version = this.version;
+    this.inputs = this.inputs;
+    this.outputs = this.outputs;
+    
+
   }
