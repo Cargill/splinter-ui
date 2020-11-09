@@ -51,11 +51,10 @@ const ContractsTable = () => {
   //   });
   // }
   const [ascending, setAscending] = useState(null);
-  let rows = [];
+  const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    console.log(ascending);
-    rows = [];
+    let tempRows = [];
     if (ascending === null) {
      altered = dummyJsonData.sort((a, b) => {
         const res = (a.name > b.name) ? -1 : 1;
@@ -73,7 +72,7 @@ const ContractsTable = () => {
         members += member + "\n";
       }
       );
-      rows.push((
+      tempRows.push((
         <tr> 
           <td> {datapoint.name} </td>
           <td style = {{whiteSpace: 'pre-wrap'}}> {members} </td>
@@ -81,6 +80,8 @@ const ContractsTable = () => {
         </tr>
       ))
     });
+
+    setRows(tempRows);
   }, [ascending]);
 
   return (
