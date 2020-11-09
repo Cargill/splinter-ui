@@ -11,16 +11,28 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-import protobuf from 'protobufjs';
 
-// ignoring because this file is generated before deploying
-// eslint-disable-next-line import/no-unresolved
-const protoJSON = require('./compiled_protos_contract.json');
+const protobuf = require('protobufjs');
+const process = require('process');
 
-const root = protobuf.Root.fromJSON(protoJSON);
-export default Object.keys(root)
-  .filter(key => /^[A-Z]/.test(key))
-  .reduce((acc, key) => {
-    acc[key] = root.get(key);
-    return acc;
-  }, {});
+const path = require('path');
+const fs = require('fs');
+
+const protoDir = process.argv[2];
+
+const include = ['batch.proto', 'payload.proto'];
+
+let root = new protobuf.Root();
+
+const files = fs
+  .readdirSync(protoDir)
+  .filter(f => include.includes(f))
+  .map(f => path.resolve(protoDir, f));
+
+root = root.loadSync(files);
+
+const output = JSON.stringify(root, null, 2);
+
+if (output !== '') {
+  process.stdout.write(output, 'utf8');
+}

@@ -15,6 +15,7 @@
  */
 
 import { makeBatch } from "./batch";
+import protos from '../protobuf';
 
  export const makePayload = (
     private_key, 
@@ -39,6 +40,7 @@ import { makeBatch } from "./batch";
 
     create_contact_registry = protos.CreateContractRegistryAction.create({
         name: contract_name,
+        // Owners is a a list of public keys of users that are allowed to add new contract versions, delete old versions and delete the registry
         owners: owners
     });
 
@@ -71,6 +73,8 @@ import { makeBatch } from "./batch";
     actionTypes.push("createContract");
     actionTypes.push("createNamespaceRegistry");
     actionTypes.push("createNamespaceRegistryPermissionAction");
+    console.log(actionTypes);
+    console.log(payloads);
 
     batchBytes = makeBatch(payloads, actionTypes, private_key, public_key);
     return batchBytes;
