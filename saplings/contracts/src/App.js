@@ -20,12 +20,13 @@ import './App.css';
 import { ToastProvider } from 'react-toast-notifications';
 
 import { UploadContractForm } from './components/forms/upload_contract';
-
+import ContractsTable from './components/contractTable/Table';
 function App() {
   return (
     <div className="contracts-app">
       <ToastProvider>
-        <UploadContractForm />
+        {/* <UploadContractForm /> */}
+        <ContractsTable/>
       </ToastProvider>
     </div>
   );

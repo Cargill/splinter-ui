@@ -14,42 +14,87 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Circuit } from '../../data/circuits';
-import TableRow from './TableRow';
+import React, { useEffect, useState } from 'react';
+// import PropTypes from 'prop-types';
+// import TableRow from './TableRow';
 import TableHeader from './TableHeader';
 
 import './ContractsTable.scss';
 
-const ContractsTable = ({ contracts, dispatch }) => {
-  let rows = (
-    <tr key="empty">
-      <td colSpan="5" className="no-contracts-msg">
-        No contracts found
-      </td>
-    </tr>
-  );
-
-  if (contracts.length > 0) {
-    rows = contracts.map(item => {
-      return <TableRow key={item.id} contracts={item} />;
-    });
+const dummyJsonData = [
+  {
+    name: "int-key-multiply",
+    members: ['a71261', 't98012'],
+    version: "1.1"
+  },
+  {
+    name: "contract-234",
+    members: ['f41256', 'p90751'],
+    version: "2.2"
   }
+]
+
+let altered = [];
+
+const ContractsTable = () => {
+  // let rows = (
+  //   <tr key="empty">
+  //     <td colSpan="5" className="no-contracts-msg">
+  //       No contracts found
+  //     </td>
+  //   </tr>
+  // );
+
+  // if (contracts.length > 0) {
+  //   rows = contracts.map(item => {
+  //     return <TableRow key={item.id} contracts={item} />;
+  //   });
+  // }
+  const [ascending, setAscending] = useState(null);
+  let rows = [];
+
+  useEffect(() => {
+    console.log(ascending);
+    rows = [];
+    if (ascending === null) {
+     altered = dummyJsonData.sort((a, b) => {
+        const res = (a.name > b.name) ? -1 : 1;
+        return res;
+      })
+      setAscending(true);
+      return;
+    } else {
+      altered = altered.reverse();
+    }
+
+    altered.forEach((datapoint) => {
+      let members = "";
+      datapoint.members.forEach((member) => {
+        members += member + "\n";
+      }
+      );
+      rows.push((
+        <tr> 
+          <td> {datapoint.name} </td>
+          <td style = {{whiteSpace: 'pre-wrap'}}> {members} </td>
+          <td> {datapoint.version} </td>
+        </tr>
+      ))
+    });
+  }, [ascending]);
 
   return (
     <div className="table-container">
       <table className="contract-table">
-        <TableHeader dispatch={dispatch} contracts={contracts} />
+        <TableHeader setAscending={setAscending} />
         <tbody>{rows}</tbody>
       </table>
     </div>
   );
 };
 
-CircuitsTable.propTypes = {
-  circuits: PropTypes.arrayOf(PropTypes.instanceOf(Circuit)).isRequired,
-  dispatch: PropTypes.func.isRequired
-};
+// ContractsTable.propTypes = {
+//   contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired,
+// };
 
-export default CircuitsTable;
+export default ContractsTable;

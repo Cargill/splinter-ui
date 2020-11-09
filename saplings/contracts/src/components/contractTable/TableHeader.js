@@ -15,12 +15,12 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-import { Contract } from '../../data/contracts';
+// import { Contract } from '../../data/contracts';
 
-const TableHeader = ({ dispatch, contracts }) => {
+const TableHeader = ({ setAscending }) => {
   const [sortedBy, setSortedBy] = useState({
     ascendingOrder: false,
     field: ''
@@ -31,11 +31,15 @@ const TableHeader = ({ dispatch, contracts }) => {
   };
 
   useEffect(() => {
-    dispatch({
-      type: 'sort',
-      sort: { field: sortedBy.field, ascendingOrder: sortedBy.ascendingOrder }
-    });
-  }, [contracts, dispatch, sortedBy]);
+    setAscending(sortedBy.ascendingOrder);
+  }, [sortedBy]);
+
+  // [useEffect(() => {
+  //   dispatch({
+  //     type: 'sort',
+  //     sort: { field: sortedBy.field, ascendingOrder: sortedBy.ascendingOrder }
+  //   });
+  // }, [contracts, dispatch, sortedBy]);
 
   const caretDown = (
     <span className="caret">
@@ -75,29 +79,29 @@ const TableHeader = ({ dispatch, contracts }) => {
           {sortSymbol('contractname')}
         </th>
         <th
-          onClick={() => {
-            sortContractsBy('memberCount', !sortedBy.ascendingOrder);
-          }}
+          // onClick={() => {
+          //   sortContractsBy('memberCount', !sortedBy.ascendingOrder);
+          // }}
         >
           Members
-          {sortSymbol('memberCount')}
+          {/* {sortSymbol('memberCount')} */}
         </th>
         <th
-          onClick={() => {
-            sortContractsBy('version', !sortedBy.ascendingOrder);
-          }}
+          // onClick={() => {
+          //   sortContractsBy('version', !sortedBy.ascendingOrder);
+          // }}
         >
           Version
-          {sortSymbol('version')}
+          {/* {sortSymbol('version')} */}
         </th>
       </tr>
     </thead>
   );
 };
 
-TableHeader.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired
-};
+// TableHeader.propTypes = {
+//   dispatch: PropTypes.func.isRequired,
+//   contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired
+// };
 
 export default TableHeader;
