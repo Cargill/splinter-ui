@@ -15,7 +15,7 @@
  */
 
 import { Secp256k1Signer, Secp256k1PrivateKey } from 'transact-sdk-javascript';
-import { makeTransaction } from 'transaction.js'
+import { makeTransaction } from './transaction.js'
 import protos from '../protobuf';
 
 export const makeBatch = (
@@ -26,14 +26,16 @@ export const makeBatch = (
 ) => {
     let transactions = [];
     let transactionIds = [];
+    let batchHeaderBytes = null;
+    let batchBytes = null;
 
-    const secp256PrivateKey = Secp256k1PrivateKey.fromHex(privateKey);
+    const secp256PrivateKey = Secp256k1PrivateKey.fromHex(private_key);
     const signer = new Secp256k1Signer(secp256PrivateKey);
 
-    for(var i = 0; payloads.length; i++) {
+    for(var i = 0; i < payloads.length; i++) {
         transactions.push(makeTransaction(public_key, private_key, payloads[i], actionTypes[i]));
     }
-    for(var i = 0; transactions.length; i++) {
+    for(var i = 0; i < transactions.length; i++) {
         transactionIds.push(transactions[i].header_signature);
     }
 

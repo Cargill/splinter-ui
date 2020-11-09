@@ -3,15 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "webpack",
+    "build": "npm run generate-proto-files && webpack",
     "bundle": "webpack --mode=development",
     "package": "rm -rf package && mkdir package && cp -r ./build/static package && cp -r images package && tar -jcvf contract_$npm_config_sapling_version.sapling package",
-    "add-to-canopy": "mkdir -p ../../sapling-dev-server/contracts && cp -r ./build/static ../../sapling-dev-server/contracts && cp -r images ../../sapling-dev-server/contracts",
+    "add-to-canopy": "mkdir -p ../../sapling-dev-server/contracts && cp -r ./build/static ../../sapling-dev-server/contracts && cp -r images ../../sapling-dev-server/contracts && cp -r contract_wasm ../../sapling-dev-server/contracts",
     "deploy": "npm run build && npm run add-to-canopy",
     "deploy-local": "npm run bundle && npm run add-to-canopy",
     "watch": "nodemon --ext js,scss,ts,css --watch src --exec npm run deploy-local",
     "lint": "eslint .",
-    "generate-proto-files": "node scripts/compile_protobuf.js protos > src/compiled_protos.json"
+    "generate-proto-files": "node scripts/compile_protobuf_contract.js protos > src/compiled_protos_contract.json"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -60,15 +60,22 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@fortawesome/fontawesome-svg-core": "^1.2.31",
-    "@fortawesome/free-solid-svg-icons": "^5.15.0",
-    "@fortawesome/react-fontawesome": "^0.1.11",
+    "@fortawesome/fontawesome-svg-core": "^1.2.27",
+    "@fortawesome/free-solid-svg-icons": "^5.12.1",
+    "@fortawesome/react-fontawesome": "^0.1.9",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.3.2",
+    "@testing-library/user-event": "^7.1.2",
+    "browserify-fs": "^1.0.0",
     "classnames": "^2.2.6",
+    "js-yaml": "^3.14.0",
     "prop-types": "^15.7.2",
+    "protobufjs": "^6.8.9",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "protobufjs": "^6.8.9",
-    "react-router-dom": "^5.2.0",
+    "react-dropdown": "^1.7.0",
+    "react-router-dom": "^5.1.2",
+    "react-toast-notifications": "^2.4.0",
     "splinter-saplingjs": "github:cargill/splinter-saplingjs#master",
     "transact-sdk-javascript": "github:hyperledger/transact-sdk-javascript#master"
   }

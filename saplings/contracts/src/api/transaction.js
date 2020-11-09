@@ -54,8 +54,7 @@ export const makeTransaction = (
             hashPayload = crypto.createHash('sha512').update(payloadbytes);
             break;
         }
-        default:
-            throw new Error(`unhandled action type: ${action.type}`);
+
     }
 
     transactionHeaderBytes = protos.TransactionHeader.encode({
