@@ -68,8 +68,13 @@ const ContractsTable = () => {
 
     altered.forEach((datapoint) => {
       let members = "";
-      datapoint.members.forEach((member) => {
-        members += member + "\n";
+      datapoint.members.forEach((member, index) => {
+        if (index == altered.length - 1) {
+          members += member;
+        } else {
+          members += member + "\n";
+        }
+        
       }
       );
       tempRows.push((

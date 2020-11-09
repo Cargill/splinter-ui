@@ -14,33 +14,16 @@
  * limitations under the License.
  */
 
-.main-content {
-  color: var(--color-dark-grey);
+.main-header {
+  align-items: center;
   display: flex;
-  flex-direction: column;
-  margin: 2.5rem 3rem 0 3rem;
-  max-height: 75%;
-}
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 2rem 3rem 0rem 3rem;
 
-@media only screen and (max-width: 600px) {
-  .main-content {
-    .midContent {
-      flex-direction: column;
-
-       .filterTable {
-         margin-top: 1rem;
-         width: auto;
-       }
-
-      .circuit-stats {
-        .stat {
-          margin-right: 1rem;
-
-          .stat-count {
-            font-size: 1rem;
-          }
-        }
-      }
-    }
+  .contracts-title {
+    color: var(--color-grey);
+    font-weight: 100;
+    margin: 0 1rem 0 0;
   }
 }

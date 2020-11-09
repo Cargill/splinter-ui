@@ -37,9 +37,8 @@ const Content = () => {
   return (
     <div className="main-content">
       {/* To Do */}
-      <ContractsTable
-        contracts={}
-      />
+      
+      <ContractsTable/>
     </div>
   );
 };

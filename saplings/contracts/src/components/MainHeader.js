@@ -15,29 +15,18 @@
  */
 
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import './App.css';
+import ProposeContractButton from './ProposeContractButton';
+import './MainHeader.scss';
 
-import { ToastProvider } from 'react-toast-notifications';
-import Content from './components/Content';
-import MainHeader from './components/MainHeader';
-
-function App() {
+const MainHeader = () => {
   return (
-    <div className="contracts-app">
-      <ToastProvider>
-        <Router>
-          <Switch>
-            <Route path = "/contracts">
-              <MainHeader/>
-              <Content/>
-            </Route>
-          </Switch>
-        </Router>
-        
-      </ToastProvider>
+    <div className="main-header">
+      <div>
+        <h4 className="contracts-title">Contracts</h4>
+      </div>
+      <ProposeContractButton />
     </div>
   );
-}
+};
 
-export default App;
+export default MainHeader;
