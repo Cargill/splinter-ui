@@ -37,6 +37,7 @@ export function UploadContractForm() {
   }
 
   function makeBatchCall() {
+    history.push(`/contracts`);
     console.log(selectedCircuit);
     console.log(buffer);
     console.log(name);
@@ -44,20 +45,20 @@ export function UploadContractForm() {
     console.log(inputs);
     console.log(outputs);
     console.log(contractRegistryName);
-    console.log(registries);
 
-    // createCallPayload(
-    //   selectedCircuit,
-    //   buffer,
-    //   name,
-    //   version,
-    //   inputs,
-    //   outputs,
-    //   namespaceName,
-    //   owners,
-    //   read,
-    //   write
-    // );
+    createCallPayload(
+      selectedCircuit,
+      buffer,
+      name,
+      version,
+      inputs,
+      outputs,
+      namespaceName,
+      owners,
+      read,
+      write
+    );
+    
   }
 
   function validateCircuit() {
