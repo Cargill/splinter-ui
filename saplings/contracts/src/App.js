@@ -21,6 +21,7 @@ import './App.css';
 import { ToastProvider } from 'react-toast-notifications';
 import Content from './components/Content';
 import MainHeader from './components/MainHeader';
+import { UploadContractForm } from './components/forms/upload_contract';
 
 function App() {
   return (
@@ -28,9 +29,12 @@ function App() {
       <ToastProvider>
         <Router>
           <Switch>
-            <Route path = "/contracts">
+            <Route exact path = "/contracts">
               <MainHeader/>
               <Content/>
+            </Route>
+            <Route path = "/contracts/propose">
+              <UploadContractForm/>
             </Route>
           </Switch>
         </Router>

@@ -18,28 +18,27 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './ProposeContractButton.scss';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const ProposeContractButton = () => {
   const plusSign = (
-    <span className="add-sign">
-      <FontAwesomeIcon icon="plus" />
+    <span className="add-sign" >
+      <FontAwesomeIcon icon={faPlus}/>
     </span>
   );
 
   // const userHasKeys = window.$CANOPY.getKeys();
 
   return (
-    // <Link
-    //   className={
-    //     userHasKeys ? 'propose-circuit-btn' : 'propose-circuit-btn disabled'
-    //   }
-    //   to={userHasKeys ? '/circuits/propose' : '/circuits'}
-    // >
-    <div className = {'propose-contract-btn'}>
+    <Link
+      className={'propose-contract-btn'}
+      to={'/contracts/propose'}
+    >
       {plusSign}
       <span className="btn-text">Propose New Contract</span>
-    </div>
-    // </Link>
+      
+    
+    </Link>
   );
 };
 

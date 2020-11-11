@@ -23,21 +23,9 @@ import ContractsTable from './contractTable/Table';
 import './Content.scss';
 
 const Content = () => {
-  // const [circuitState, circuitsDispatch] = useCircuitsState();
-
-  // const nodeID = useLocalNodeState();
-  // const totalCircuits = circuitState.circuits.length;
-  // let actionRequired = 0;
-  // if (nodeID !== 'unknown') {
-  //   actionRequired = circuitState.circuits.filter(circuit =>
-  //     circuit.actionRequired(nodeID)
-  //   ).length;
-  // }
 
   return (
     <div className="main-content">
-      {/* To Do */}
-      
       <ContractsTable/>
     </div>
   );
