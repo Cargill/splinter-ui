@@ -22,22 +22,17 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 const ProposeContractButton = () => {
   const plusSign = (
-    <span className="add-sign" >
-      <FontAwesomeIcon icon={faPlus}/>
+    <span className="add-sign">
+      <FontAwesomeIcon icon={faPlus} />
     </span>
   );
 
   // const userHasKeys = window.$CANOPY.getKeys();
 
   return (
-    <Link
-      className={'propose-contract-btn'}
-      to={'/contracts/propose'}
-    >
+    <Link className="propose-contract-btn" to="/contracts/propose">
       {plusSign}
       <span className="btn-text">Propose New Contract</span>
-      
-    
     </Link>
   );
 };

@@ -14,12 +14,25 @@
  * limitations under the License.
  */
 
-export function Contract(data) {
-  if (!(this instanceof Contract)) {
-    return new Contract(data);
-  }
-  this.name = data.name;
-  this.version = data.version;
-  this.inputs = data.inputs;
-  this.outputs = data.outputs;
+import { useState, useEffect } from 'react';
+import { getNodeRegistry } from '../api/splinter';
+
+function useNodeRegistryState() {
+  const [nodesState, setNodes] = useState({ nodes: [] });
+
+  useEffect(() => {
+    const getNodes = async () => {
+      try {
+        const nodes = await getNodeRegistry();
+        setNodes({ nodes });
+      } catch (e) {
+        throw Error(`Error fetching information from node registry: ${e}`);
+      }
+    };
+    getNodes();
+  }, []);
+
+  return nodesState.nodes;
 }
+
+export { useNodeRegistryState };

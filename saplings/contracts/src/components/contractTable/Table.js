@@ -15,75 +15,44 @@
  */
 
 import React, { useEffect, useState } from 'react';
-// import PropTypes from 'prop-types';
-// import TableRow from './TableRow';
+import PropTypes from 'prop-types';
 import TableHeader from './TableHeader';
-
 import './ContractsTable.scss';
-
-const dummyJsonData = [
-  {
-    name: "int-key-multiply",
-    members: ['a71261', 't98012'],
-    version: "1.1"
-  },
-  {
-    name: "contract-234",
-    members: ['f41256', 'p90751'],
-    version: "2.2"
-  }
-]
 
 let altered = [];
 
-const ContractsTable = () => {
-  // let rows = (
-  //   <tr key="empty">
-  //     <td colSpan="5" className="no-contracts-msg">
-  //       No contracts found
-  //     </td>
-  //   </tr>
-  // );
-
-  // if (contracts.length > 0) {
-  //   rows = contracts.map(item => {
-  //     return <TableRow key={item.id} contracts={item} />;
-  //   });
-  // }
+const ContractsTable = ({ contractsData }) => {
   const [ascending, setAscending] = useState(null);
   const [rows, setRows] = useState([]);
 
   useEffect(() => {
-    let tempRows = [];
+    const tempRows = [];
     if (ascending === null) {
-     altered = dummyJsonData.sort((a, b) => {
-        const res = (a.name > b.name) ? -1 : 1;
+      altered = contractsData.sort((a, b) => {
+        const res = a.name > b.name ? -1 : 1;
         return res;
-      })
+      });
       setAscending(true);
       return;
-    } else {
-      altered = altered.reverse();
     }
+    altered = altered.reverse();
 
-    altered.forEach((datapoint) => {
-      let members = "";
+    altered.forEach(datapoint => {
+      let members = '';
       datapoint.members.forEach((member, index) => {
-        if (index == altered.length - 1) {
+        if (index === altered.length - 1) {
           members += member;
         } else {
-          members += member + "\n";
+          members += `${member}\n`;
         }
-        
-      }
-      );
-      tempRows.push((
-        <tr> 
-          <td> {datapoint.name} </td>
-          <td style = {{whiteSpace: 'pre-wrap'}}> {members} </td>
-          <td> {datapoint.version} </td>
+      });
+      tempRows.push(
+        <tr>
+          <td>{datapoint.name}</td>
+          <td style={{ whiteSpace: 'pre-wrap' }}>{members}</td>
+          <td>{datapoint.version}</td>
         </tr>
-      ))
+      );
     });
 
     setRows(tempRows);
@@ -99,8 +68,8 @@ const ContractsTable = () => {
   );
 };
 
-// ContractsTable.propTypes = {
-//   contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired,
-// };
+ContractsTable.propTypes = {
+  contractsData: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 export default ContractsTable;

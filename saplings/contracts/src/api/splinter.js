@@ -21,22 +21,31 @@ import { makePayload } from './payload';
 
 const { splinterURL } = getSharedConfig().canopyConfig;
 
+export const getNodeID = async () => {
+  const result = await get(`${splinterURL}/status`);
+
+  if (result.ok) {
+    return result.json.node_id;
+  }
+  throw Error(result.data);
+};
+
 export const listCircuits = async () => {
-    const result = await get(`${splinterURL}/admin/circuits`);
-  
-    if (result.ok) {
-      return result.json;
-    }
-    throw Error(result.data);
-  };
+  const result = await get(`${splinterURL}/admin/circuits`);
+
+  if (result.ok) {
+    return result.json;
+  }
+  throw Error(result.data);
+};
 
 export const getCircuit = async circuitId => {
-    const result = await get(`${splinterURL}/admin/circuits/${circuitId}`);
-  
-    if (result.ok) {
-      return result.json;
-    }
-    throw Error(result.data);
+  const result = await get(`${splinterURL}/admin/circuits/${circuitId}`);
+
+  if (result.ok) {
+    return result.json;
+  }
+  throw Error(result.data);
 };
 
 export const getNodes = async () => {
@@ -46,7 +55,7 @@ export const getNodes = async () => {
     return result.json;
   }
   throw Error(result.data);
-}
+};
 
 export const getNodeRegistry = async () => {
   const result = await get(`${splinterURL}/registry/nodes`);
@@ -58,6 +67,17 @@ export const getNodeRegistry = async () => {
   throw Error(result.data);
 };
 
+export const postSmartContractPayload = async (payload, circuit, serviceID) => {
+  const result = await post(
+    `${splinterURL}/scabbard/${circuit}/${serviceID}/batches`,
+    payload
+  );
+  console.log(result);
+  if (!result.ok) {
+    throw Error(result.json.message);
+  }
+};
+
 export const createCallPayload = async (
   circuit,
   fileBuffer,
@@ -65,38 +85,28 @@ export const createCallPayload = async (
   version,
   inputs,
   ouputs,
-  namespaceName,
+  registries,
+  contractRegistryName,
   owners,
-  read,
-  write
+  serviceID
 ) => {
+  const { privateKey, publicKey } = window.$CANOPY.getKeys();
 
-  const payload_result = makePayload(
-    "701055fadc7d68014ab9078f357655f3ab412fc1f0f323726c2eef7216423ee9",
-    "0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277",
-    namespaceName,
+  const payloadResult = makePayload(
+    privateKey,
+    publicKey,
     name,
-    read,
-    write,
+    contractRegistryName,
     inputs,
     ouputs,
     version,
-    fileBuffer, 
+    fileBuffer,
+    registries,
     owners
   );
   try {
-    await postSmartContractPayload(payload_result, circuit);
+    await postSmartContractPayload(payloadResult, circuit, serviceID);
   } catch (e) {
     console.log(e);
-  }
-  
-};
-
-export const postSmartContractPayload = async (payload, circuit) => {
-  const serviceID = 'abcd';
-  const result = await post(`${splinterURL}/scabbard/${circuit}/${serviceID}/batches`, payload);
-  console.log(result);
-  if (!result.ok) {
-    throw Error(result.json.message);
   }
 };

@@ -46,7 +46,6 @@ Label.defaultProps = {
 };
 
 const CircuitDetails = ({ circuitId }) => {
-  console.log(circuitId);
   if (circuitId === '') {
     return <div />;
   }
@@ -117,6 +116,10 @@ const CircuitDetails = ({ circuitId }) => {
       </div>
     </div>
   );
+};
+
+CircuitDetails.propTypes = {
+  circuitId: PropTypes.string.isRequired
 };
 
 const contains = (list, val) => !!list.find(v => v === val);

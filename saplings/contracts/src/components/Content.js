@@ -15,18 +15,27 @@
  */
 
 import React from 'react';
-// import { useLocalNodeState } from '../state/localNode';
-// import { useCircuitsState } from '../state/circuits';
-
 import ContractsTable from './contractTable/Table';
 
 import './Content.scss';
 
-const Content = () => {
+const dummyJsonData = [
+  {
+    name: 'int-key-multiply',
+    members: ['a71261', 't98012'],
+    version: '1.1'
+  },
+  {
+    name: 'contract-234',
+    members: ['f41256', 'p90751'],
+    version: '2.2'
+  }
+];
 
+const Content = () => {
   return (
     <div className="main-content">
-      <ContractsTable/>
+      <ContractsTable contractsData={dummyJsonData} />
     </div>
   );
 };

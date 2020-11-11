@@ -19,6 +19,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import './App.css';
 
 import { ToastProvider } from 'react-toast-notifications';
+import { LocalNodeProvider } from './state/localNode';
 import Content from './components/Content';
 import MainHeader from './components/MainHeader';
 import { UploadContractForm } from './components/forms/upload_contract';
@@ -26,20 +27,21 @@ import { UploadContractForm } from './components/forms/upload_contract';
 function App() {
   return (
     <div className="contracts-app">
-      <ToastProvider>
-        <Router>
-          <Switch>
-            <Route exact path = "/contracts">
-              <MainHeader/>
-              <Content/>
-            </Route>
-            <Route path = "/contracts/propose">
-              <UploadContractForm/>
-            </Route>
-          </Switch>
-        </Router>
-        
-      </ToastProvider>
+      <LocalNodeProvider>
+        <ToastProvider>
+          <Router>
+            <Switch>
+              <Route exact path="/contracts">
+                <MainHeader />
+                <Content />
+              </Route>
+              <Route path="/contracts/propose">
+                <UploadContractForm />
+              </Route>
+            </Switch>
+          </Router>
+        </ToastProvider>
+      </LocalNodeProvider>
     </div>
   );
 }

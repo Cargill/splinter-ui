@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-
-import { listCircuits, getCircuit } from '../../api/splinter';
+import PropTypes from 'prop-types';
+import { listCircuits } from '../../api/splinter';
 import { ListBoxSelect } from './controls';
 import CircuitDetails from '../circuitDetails/CircuitDetails';
 
@@ -13,19 +13,14 @@ export function SelectCircuit({ handleCircuitSelection }) {
       const res = await listCircuits();
       const circuitOptions = [];
 
-      // TODO: Wait for forEach to complete before setting to state
-      res['data'].forEach((elem) => {
+      res.data.forEach(elem => {
         circuitOptions.push({ value: elem.id, content: elem.id });
       });
-      
+
       setAllCircuits(circuitOptions);
-    }
+    };
     fetchCircuits();
   }, []);
-
-  function displayTable(circuit) {
-    // TODO: Display circuit data using selectedCircuit
-  }
 
   function handleSelection(event) {
     if (event) {
@@ -33,7 +28,6 @@ export function SelectCircuit({ handleCircuitSelection }) {
 
       if (event.target.value) {
         handleCircuitSelection(event.target.value);
-        // displayTable(event.target.value);
         setSelectedCircuit(event.target.value);
       }
     }
@@ -41,9 +35,17 @@ export function SelectCircuit({ handleCircuitSelection }) {
 
   return (
     <div>
-      <ListBoxSelect label='Select Circuit' name='Select Circuit' options={allCircuits}
-        onChange={handleSelection} />
+      <ListBoxSelect
+        label="Select Circuit"
+        name="Select Circuit"
+        options={allCircuits}
+        onChange={handleSelection}
+      />
       <CircuitDetails circuitId={selectedCircuit} />
     </div>
   );
 }
+
+SelectCircuit.propTypes = {
+  handleCircuitSelection: PropTypes.func.isRequired
+};

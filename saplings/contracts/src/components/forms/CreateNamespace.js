@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { OverlayModal } from '../OverlayModal';
-import { getNodes } from '../../api/splinter';
-
-import { Button, ListBoxSelect, TextField } from './controls';
 import Checkbox from 'rc-checkbox';
+import PropTypes from 'prop-types';
+import { OverlayModal } from '../OverlayModal';
+import { Button, ListBoxSelect, TextField } from './controls';
 import 'rc-checkbox/assets/index.css';
 import './CreateNamespace.scss';
 
-function NamespaceForm({
-  setData,
-  close
-}) {
+function NamespaceForm({ setData, close, filteredNodes }) {
   const [allNodes, setAllNodes] = useState([]);
   const [name, setName] = useState('');
   const [owners, setOwners] = useState([]);
@@ -22,11 +18,13 @@ function NamespaceForm({
 
   useEffect(() => {
     const fetchNodes = async () => {
-      const res = await getNodes();
       const nodeOptions = [];
 
-      res['data'].forEach((node) => {
-        nodeOptions.push({ value: node['keys'][0], content: node['display_name'] });
+      filteredNodes.forEach(node => {
+        nodeOptions.push({
+          value: node.keys[0],
+          content: node.display_name
+        });
       });
 
       setAllNodes(nodeOptions);
@@ -52,11 +50,11 @@ function NamespaceForm({
 
   function handleSubmit() {
     setData({
-      name: name,
-      owners: owners,
+      name,
+      owners,
       names: ownerNames,
-      read: read,
-      write: write
+      read,
+      write
     });
     close();
   }
@@ -65,22 +63,46 @@ function NamespaceForm({
     <div className="create-namespace-form-wrapper">
       <div className="create-namespace-form-header">
         <div className="title">Create Namespace Registry</div>
-        <div className="help-text">
-          Create a new namespace registry
-        </div>
+        <div className="help-text">Create a new namespace registry</div>
       </div>
       <div>
-        <TextField name='Namespace Registry Name' label='Namespace Registry Name' value={name}
-          onChange={onNameChange} />
-        <span style={{marginTop: '5px'}} />
-        <ListBoxSelect label='Select Owners of the Namespace' name='Select Owners of the Namespace' 
-          onChange={handleOwners} options={allNodes} isMulti={true} />
-        <span className='label' style={{marginLeft: '16px', marginTop: '5px'}}>Set Permissions for the Namespace</span>
-        <div style={{flexDirection: 'row', marginTop: '10px' }}>
-          <Checkbox onChange={(event) => { setRead(event.target.checked); }} defaultChecked={false}
-            style={{margin: '0 15px'}} /> Read
-          <Checkbox onChange={(event) => { setWrite(event.target.checked); }} defaultChecked={false}
-            style={{margin: '0 0 0 15px'}} /> Write
+        <TextField
+          name="Namespace Registry Name"
+          label="Namespace Registry Name"
+          value={name}
+          onChange={onNameChange}
+        />
+        <span style={{ marginTop: '5px' }} />
+        <ListBoxSelect
+          label="Select Owners of the Namespace"
+          name="Select Owners of the Namespace"
+          onChange={handleOwners}
+          options={allNodes}
+          isMulti
+        />
+        <span
+          className="label"
+          style={{ marginLeft: '16px', marginTop: '5px' }}
+        >
+          Set Permissions for the Namespace
+        </span>
+        <div style={{ flexDirection: 'row', marginTop: '10px' }}>
+          <Checkbox
+            onChange={event => {
+              setRead(event.target.checked);
+            }}
+            defaultChecked={false}
+            style={{ margin: '0 15px' }}
+          />
+          Read
+          <Checkbox
+            onChange={event => {
+              setWrite(event.target.checked);
+            }}
+            defaultChecked={false}
+            style={{ margin: '0 0 0 15px' }}
+          />
+          Write
         </div>
       </div>
       <div className="namespace-form-footer">
@@ -88,14 +110,16 @@ function NamespaceForm({
           <button
             type="button"
             className="form-button form-btn cancel"
-            onClick={handleCancel}>
+            onClick={handleCancel}
+          >
             Cancel
           </button>
           <button
             type="button"
             disabled={!nameSet || !ownersSet}
             className="form-button form-btn submit"
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             Submit
           </button>
         </div>
@@ -104,14 +128,16 @@ function NamespaceForm({
   );
 }
 
-function NewlineText({ text }) {
-
-}
+NamespaceForm.propTypes = {
+  setData: PropTypes.func.isRequired,
+  close: PropTypes.func.isRequired,
+  filteredNodes: PropTypes.arrayOf(PropTypes.object).isRequired
+};
 
 function NamespaceTable({ registries }) {
   let rows = null;
 
-  registries.forEach((registry) => {
+  registries.forEach(registry => {
     if (rows === null) {
       rows = [];
     }
@@ -128,32 +154,32 @@ function NamespaceTable({ registries }) {
     if (permissionText === '') {
       permissionText = 'No permissions selected.';
     } else {
-      permissionText = permissionText.slice(0,-1);
+      permissionText = permissionText.slice(0, -1);
     }
 
     let owners = '';
-    registry.names.forEach((owner) => {
-      owners += owner + '\n';
+    registry.names.forEach(owner => {
+      owners += `${owner}\n`;
     });
 
     if (owners === '') {
-      owners = 'No owners selected.'
+      owners = 'No owners selected.';
     } else {
-      owners = owners.slice(0,-1);
+      owners = owners.slice(0, -1);
     }
 
-    rows.push((
+    rows.push(
       <tr>
         <td>{registry.name}</td>
-        <td style={{whiteSpace: 'pre-wrap'}}>{owners}</td>
-        <td style={{whiteSpace: 'pre-wrap'}}>{permissionText}</td>
+        <td style={{ whiteSpace: 'pre-wrap' }}>{owners}</td>
+        <td style={{ whiteSpace: 'pre-wrap' }}>{permissionText}</td>
       </tr>
-    ));
+    );
   });
 
   return (
-    <div className='ns-table-container'>
-      <table className='ns-table'>
+    <div className="ns-table-container">
+      <table className="ns-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -167,10 +193,11 @@ function NamespaceTable({ registries }) {
   );
 }
 
-export function CreateNamespace({
-  registries,
-  setRegistries
-}) {
+NamespaceTable.propTypes = {
+  registries: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+export function CreateNamespace({ registries, setRegistries, filteredNodes }) {
   const [data, setData] = useState({});
 
   useEffect(() => {
@@ -187,14 +214,29 @@ export function CreateNamespace({
 
   return (
     <div>
-      <Button className='form-button form-btn create-btn' label='Create New Namespace Registry'
-        onClick={() => {setModalActive(true);}}>
+      <Button
+        className="form-button form-btn create-btn"
+        label="Create New Namespace Registry"
+        onClick={() => {
+          setModalActive(true);
+        }}
+      >
         Create New Namespace Registry
       </Button>
       <NamespaceTable registries={registries} />
       <OverlayModal open={modalActive}>
-        <NamespaceForm close={() => setModalActive(false)} setData={setData} />
+        <NamespaceForm
+          close={() => setModalActive(false)}
+          setData={setData}
+          filteredNodes={filteredNodes}
+        />
       </OverlayModal>
     </div>
   );
 }
+
+CreateNamespace.propTypes = {
+  registries: PropTypes.arrayOf(PropTypes.object).isRequired,
+  setRegistries: PropTypes.func.isRequired,
+  filteredNodes: PropTypes.arrayOf(PropTypes.object).isRequired
+};
