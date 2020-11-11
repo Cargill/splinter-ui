@@ -70,9 +70,9 @@ export const createCallPayload = async (
   read,
   write
 ) => {
-
+  const { privateKey } = window.$CANOPY.getKeys();
   const payload_result = makePayload(
-    "701055fadc7d68014ab9078f357655f3ab412fc1f0f323726c2eef7216423ee9",
+    privateKey,
     "0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277",
     namespaceName,
     name,
