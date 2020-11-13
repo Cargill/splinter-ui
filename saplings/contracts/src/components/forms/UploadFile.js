@@ -65,7 +65,7 @@ export function UploadFile({
       <FileSelect name='Upload Contract Manifest' label='Upload Contract Manifest'
         onChange={onManifestFileChange} />
       <span style={{marginTop: '5px'}} />
-      <TextField name='Contract Registry Name' label='Contract Registry Name' value={contractRegistryName}
+      <TextField name='Contract Registry Name' label='Contract Registry Name (Optional)' value={contractRegistryName}
         onChange={onContractRegistryNameChange} />
     </div>
   );

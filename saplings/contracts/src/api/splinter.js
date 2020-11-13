@@ -65,30 +65,28 @@ export const createCallPayload = async (
   version,
   inputs,
   ouputs,
-  namespaceName,
-  owners,
-  read,
-  write
+  registries,
+  contractRegistryName
 ) => {
-  const { privateKey } = window.$CANOPY.getKeys();
+  // const { privateKey } = window.$CANOPY.getKeys();
+  const { userId } = window.$CANOPY.getUser();
   const payload_result = makePayload(
-    privateKey,
-    "0287582756592963f0df29f2f4a590830021df5aeaf13dd5d497348f07c05d1277",
-    namespaceName,
+    'hgdhdhdh',
+    userId,
     name,
-    read,
-    write,
+    contractRegistryName,
     inputs,
     ouputs,
     version,
-    fileBuffer, 
-    owners
+    fileBuffer,
+    registries
   );
-  try {
-    await postSmartContractPayload(payload_result, circuit);
-  } catch (e) {
-    console.log(e);
-  }
+  console.log('here');
+  // try {
+  //   await postSmartContractPayload(payload_result, circuit);
+  // } catch (e) {
+  //   console.log(e);
+  // }
   
 };
 

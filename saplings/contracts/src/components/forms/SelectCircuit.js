@@ -11,9 +11,9 @@ export function SelectCircuit({ handleCircuitSelection }) {
   useEffect(() => {
     const fetchCircuits = async () => {
       const res = await listCircuits();
+      console.log(res);
       const circuitOptions = [];
 
-      // TODO: Wait for forEach to complete before setting to state
       res['data'].forEach((elem) => {
         circuitOptions.push({ value: elem.id, content: elem.id });
       });
@@ -23,17 +23,12 @@ export function SelectCircuit({ handleCircuitSelection }) {
     fetchCircuits();
   }, []);
 
-  function displayTable(circuit) {
-    // TODO: Display circuit data using selectedCircuit
-  }
-
   function handleSelection(event) {
     if (event) {
       event.preventDefault();
 
       if (event.target.value) {
         handleCircuitSelection(event.target.value);
-        // displayTable(event.target.value);
         setSelectedCircuit(event.target.value);
       }
     }

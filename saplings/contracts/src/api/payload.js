@@ -20,33 +20,28 @@ import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder,
  export const makePayload = (
     private_key, 
     public_key,
-    namespace, 
     contract_name,
-    permission_read, 
-    permission_write, 
+    contract_registry_name,
     inputs,
     outputs, 
     version, 
-    contract, 
-    owners
+    contract,
+    namespace_registries
  ) => {
     let create_contact_registry = {};
     let create_contract = {};
-    let create_namespace_registry = {};
-    let create_permissions = {};
     let transactions = [];
+    let registryTransactions = [];
     let batchBytes = null;
     let transaction_contact_registry = null;
     let transaction_create_contract_action = null;
-    let transaction_create_namespace_registry_action = null;
-    let transaction_create_namespace_registry_permission_action = null;
     let publicKeyBytes = PublicKey.fromHex(public_key);
 
     const secp256PrivateKey = Secp256k1PrivateKey.fromHex(private_key);
     const signer = new Secp256k1Signer(secp256PrivateKey);
 
     create_contact_registry = protos.CreateContractRegistryAction.encode({
-        name: contract_name,
+        name: contract_registry_name,
         owners: owners
     }).finish();
     
@@ -62,23 +57,35 @@ import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder,
 
     transaction_create_contract_action = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_contract).build(signer);
 
-    create_namespace_registry = protos.CreateNamespaceRegistryAction.encode({
-        namespace: namespace,
-        owners: owners
-    }).finish();
+    namespace_registries.forEach((registry) => {
+        let create_namespace_registry = {};
+        let create_permissions = {};
+        let transaction_create_namespace_registry_action = null;
+        let transaction_create_namespace_registry_permission_action = null;
 
-    transaction_create_namespace_registry_action = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_namespace_registry).build(signer);
+        create_namespace_registry = protos.CreateNamespaceRegistryAction.encode({
+            namespace: registry.name,
+            owners: registry.owners
+        }).finish();
 
-    create_permissions = protos.CreateNamespaceRegistryPermissionAction.encode({
-        namespace: namespace,
-        contractName: contract_name,
-        read: permission_read,
-        write: permission_write
-    }).finish();
+        transaction_create_namespace_registry_action = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_namespace_registry).build(signer);
+    
+        create_permissions = protos.CreateNamespaceRegistryPermissionAction.encode({
+            namespace: registry.name,
+            contractName: contract_name,
+            read: registry.read,
+            write: registry.write
+        }).finish();
+
+        registryTransactions.push([transaction_create_namespace_registry_action, transaction_create_namespace_registry_permission_action]);
+    })
 
     transaction_create_namespace_registry_permission_action = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_permissions).build(signer);
 
-    transactions = [transaction_contact_registry, transaction_create_contract_action, transaction_create_namespace_registry_action, transaction_create_namespace_registry_permission_action];
+    transactions = [transaction_contact_registry, transaction_create_contract_action];
+    registryTransactions.forEach((registryTransaction) => {
+        transactions.push(registryTransaction);
+    });
     
     batchBytes = new BatchBuilder().withTransactions(transactions).withTrace(false).build(signer);
     return batchBytes;

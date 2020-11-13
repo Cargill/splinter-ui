@@ -38,13 +38,11 @@ export function UploadContractForm() {
 
   function makeBatchCall() {
     history.push(`/contracts`);
-    console.log(selectedCircuit);
-    console.log(buffer);
-    console.log(name);
-    console.log(version);
-    console.log(inputs);
-    console.log(outputs);
-    console.log(contractRegistryName);
+
+    let cr_name = contractRegistryName;
+    if (contractRegistryName === '') {
+      cr_name = name;
+    }
 
     createCallPayload(
       selectedCircuit,
@@ -53,12 +51,9 @@ export function UploadContractForm() {
       version,
       inputs,
       outputs,
-      namespaceName,
-      owners,
-      read,
-      write
+      registries,
+      cr_name
     );
-    
   }
 
   function validateCircuit() {
