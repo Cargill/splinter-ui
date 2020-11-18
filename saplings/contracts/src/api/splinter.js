@@ -21,6 +21,15 @@ import { makePayload } from './payload';
 
 const { splinterURL } = getSharedConfig().canopyConfig;
 
+export const getNodeID = async () => {
+  const result = await get(`${splinterURL}/status`);
+
+  if (result.ok) {
+    return result.json.node_id;
+  }
+  throw Error(result.data);
+};
+
 export const listCircuits = async () => {
     const result = await get(`${splinterURL}/admin/circuits`);
   
@@ -66,20 +75,22 @@ export const createCallPayload = async (
   inputs,
   ouputs,
   registries,
-  contractRegistryName
+  contractRegistryName,
+  owners
 ) => {
-  // const { privateKey } = window.$CANOPY.getKeys();
-  const { userId } = window.$CANOPY.getUser();
+  const { privateKey, publicKey } = window.$CANOPY.getKeys();
+
   const payload_result = makePayload(
-    'hgdhdhdh',
-    userId,
+    privateKey,
+    publicKey,
     name,
     contractRegistryName,
     inputs,
     ouputs,
     version,
     fileBuffer,
-    registries
+    registries,
+    owners
   );
   console.log('here');
   // try {

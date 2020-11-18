@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
+import { useLocalNodeState } from '../../../state/localNode';
+import { useNodeRegistryState } from '../../../state/nodeRegistry';
+import { useCircuitState } from '../../../state/circuits';
 import { MultiStepForm, Step } from '../MultiStepForm';
-import { createCallPayload } from '../../../api/splinter';
+import { createCallPayload, getNodeRegistry } from '../../../api/splinter';
 import { SelectCircuit } from '../SelectCircuit';
 import { UploadFile } from '../UploadFile';
 import { CreateNamespace } from '../CreateNamespace';
@@ -20,6 +23,38 @@ export function UploadContractForm() {
   const [outputs, setOutputs] = useState('');
   const [registries, setRegistries] = useState([]);
   const [contractRegistryName, setContractRegistryName] = useState('');
+  const [filteredNodes, setFilteredNodes] = useState([]);
+  const [localNode, setLocalNode] = useState(null);
+  const localNodeID = useLocalNodeState();
+
+  useEffect(() => {
+    const fetchNodes = async (circuitData) => {
+      try {
+        const apiNodes = await getNodeRegistry();
+
+        const currNode = apiNodes.find(node => node.identity === localNodeID);
+        setLocalNode(currNode);
+
+        const apiFilteredNodes = apiNodes.filter(
+          node => !!circuitData.members.find(id => id === node.identity)
+        );
+        setFilteredNodes(apiFilteredNodes);
+      } catch (e) {
+        throw Error(`Unable to fetch nodes from the node registry: ${e}`);
+      }
+    };
+
+    if (selectedCircuit) {
+      const [circuit] = useCircuitState(selectedCircuit);
+      fetchNodes(circuit);
+    }
+  }, [selectedCircuit]);
+
+  console.log('local node');
+  console.log(localNode);
+
+  console.log('filtered nodes');
+  console.log(filteredNodes);
 
   function handleCircuitSelection(circuit) {
     setSelectedCircuit(circuit);
@@ -52,7 +87,8 @@ export function UploadContractForm() {
       inputs,
       outputs,
       registries,
-      cr_name
+      cr_name,
+      filteredNodes
     );
   }
 
@@ -129,7 +165,7 @@ export function UploadContractForm() {
             Create the namespace registry for the uploaded contract.
           </div>
         </div>
-        <CreateNamespace registries={registries} setRegistries={setRegistries} />
+        <CreateNamespace registries={registries} setRegistries={setRegistries} filteredNodes={filteredNodes} />
       </Step>
     </MultiStepForm>
   );

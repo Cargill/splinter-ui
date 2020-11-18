@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { OverlayModal } from '../OverlayModal';
 import { getNodes } from '../../api/splinter';
+import { useCircuitState } from '../../state/circuits';
 
 import { Button, ListBoxSelect, TextField } from './controls';
 import Checkbox from 'rc-checkbox';
@@ -9,7 +10,8 @@ import './CreateNamespace.scss';
 
 function NamespaceForm({
   setData,
-  close
+  close,
+  filteredNodes
 }) {
   const [allNodes, setAllNodes] = useState([]);
   const [name, setName] = useState('');
@@ -23,11 +25,13 @@ function NamespaceForm({
   useEffect(() => {
     const fetchNodes = async () => {
       const res = await getNodes();
+      console.log(res);
       const nodeOptions = [];
 
-      res['data'].forEach((node) => {
+      filteredNodes.forEach((node) => {
         nodeOptions.push({ value: node['keys'][0], content: node['display_name'] });
       });
+      console.log(nodeOptions);
 
       setAllNodes(nodeOptions);
     };
@@ -104,10 +108,6 @@ function NamespaceForm({
   );
 }
 
-function NewlineText({ text }) {
-
-}
-
 function NamespaceTable({ registries }) {
   let rows = null;
 
@@ -169,7 +169,8 @@ function NamespaceTable({ registries }) {
 
 export function CreateNamespace({
   registries,
-  setRegistries
+  setRegistries,
+  filteredNodes
 }) {
   const [data, setData] = useState({});
 
@@ -193,7 +194,7 @@ export function CreateNamespace({
       </Button>
       <NamespaceTable registries={registries} />
       <OverlayModal open={modalActive}>
-        <NamespaceForm close={() => setModalActive(false)} setData={setData} />
+        <NamespaceForm close={() => setModalActive(false)} setData={setData} filteredNodes={filteredNodes} />
       </OverlayModal>
     </div>
   );

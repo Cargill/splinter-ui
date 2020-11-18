@@ -26,7 +26,8 @@ import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder,
     outputs, 
     version, 
     contract,
-    namespace_registries
+    namespace_registries,
+    owners
  ) => {
     let create_contact_registry = {};
     let create_contract = {};
