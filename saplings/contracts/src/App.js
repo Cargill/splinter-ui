@@ -31,12 +31,12 @@ function App() {
         <ToastProvider>
           <Router>
             <Switch>
-              <Route exact path = "/contracts">
-                <MainHeader/>
-                <Content/>
+              <Route exact path="/contracts">
+                <MainHeader />
+                <Content />
               </Route>
-              <Route path = "/contracts/propose">
-                <UploadContractForm/>
+              <Route path="/contracts/propose">
+                <UploadContractForm />
               </Route>
             </Switch>
           </Router>

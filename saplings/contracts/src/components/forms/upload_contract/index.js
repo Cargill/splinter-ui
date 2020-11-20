@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { useHistory } from 'react-router-dom';
 import { useLocalNodeState } from '../../../state/localNode';
 import { MultiStepForm, Step } from '../MultiStepForm';
 import { Circuit } from '../../../data/circuits';
@@ -7,7 +8,6 @@ import { createCallPayload, getCircuit, getNodes } from '../../../api/splinter';
 import { SelectCircuit } from '../SelectCircuit';
 import { UploadFile } from '../UploadFile';
 import { CreateNamespace } from '../CreateNamespace';
-import { useHistory } from 'react-router-dom';
 
 import 'rc-checkbox/assets/index.css';
 import './index.scss';
@@ -32,11 +32,13 @@ export function UploadContractForm() {
         const apiCircuit = await getCircuit(selectedCircuit);
         const circuit = new Circuit(apiCircuit);
 
-        const localNodeRoster = circuit['roster'].find(node => node['allowedNodes'][0] === localNodeID);
-        setServiceID(localNodeRoster['serviceId']);
+        const localNodeRoster = circuit.roster.find(
+          node => node.allowedNodes[0] === localNodeID
+        );
+        setServiceID(localNodeRoster.serviceId);
 
         const apiNodes = await getNodes();
-        const apiFilteredNodes = apiNodes['data'].filter(
+        const apiFilteredNodes = apiNodes.data.filter(
           node => !!circuit.members.find(id => id === node.identity)
         );
         setFilteredNodes(apiFilteredNodes);
@@ -59,10 +61,10 @@ export function UploadContractForm() {
   }
 
   function handleManifestData(data) {
-    setName(data['name']);
-    setVersion(data['version']);
-    setInputs(data['inputs']);
-    setOutputs(data['outputs']);
+    setName(data.name);
+    setVersion(data.version);
+    setInputs(data.inputs);
+    setOutputs(data.outputs);
   }
 
   function makeBatchCall() {
@@ -73,9 +75,9 @@ export function UploadContractForm() {
       crName = name;
     }
 
-    let ownerKeys = []
-    filteredNodes.forEach((node) => {
-      ownerKeys.push(node['keys'][0])
+    const ownerKeys = [];
+    filteredNodes.forEach(node => {
+      ownerKeys.push(node.keys[0]);
     });
 
     createCallPayload(
@@ -119,8 +121,8 @@ export function UploadContractForm() {
     return true;
   }
 
-  const stepValidationFn = (stepNumber) => {
-    switch(stepNumber) {
+  const stepValidationFn = stepNumber => {
+    switch (stepNumber) {
       case 1:
         return validateCircuit();
       case 2:
@@ -130,14 +132,15 @@ export function UploadContractForm() {
       default:
         return true;
     }
-  }
+  };
 
   return (
     <MultiStepForm
       formName="Upload Contract"
       handleSubmit={makeBatchCall}
       handleCancel={() => history.push(`/contracts`)}
-      isStepValidFn={stepNumber => stepValidationFn(stepNumber)} >
+      isStepValidFn={stepNumber => stepValidationFn(stepNumber)}
+    >
       <Step step={1} label="Select Circuit">
         <div className="step-header">
           <div className="step-title">Select Circuit</div>
@@ -154,9 +157,11 @@ export function UploadContractForm() {
             Upload the packaged smart contract in the form of a .scar file.
           </div>
         </div>
-        <UploadFile handleBufferChange={handleBufferChange}
-          handleContractRegistryChange={setContractRegistryName} 
-          handleManifestData={handleManifestData} />
+        <UploadFile
+          handleBufferChange={handleBufferChange}
+          handleContractRegistryChange={setContractRegistryName}
+          handleManifestData={handleManifestData}
+        />
       </Step>
       <Step step={3} label="Create Namespace Registry">
         <div className="step-header">
@@ -165,7 +170,11 @@ export function UploadContractForm() {
             Create the namespace registry for the uploaded contract.
           </div>
         </div>
-        <CreateNamespace registries={registries} setRegistries={setRegistries} filteredNodes={filteredNodes} />
+        <CreateNamespace
+          registries={registries}
+          setRegistries={setRegistries}
+          filteredNodes={filteredNodes}
+        />
       </Step>
     </MultiStepForm>
   );

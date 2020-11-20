@@ -15,10 +15,8 @@
  */
 
 import React, { useState, useEffect } from 'react';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-// import { Contract } from '../../data/contracts';
 
 const TableHeader = ({ setAscending }) => {
   const [sortedBy, setSortedBy] = useState({
@@ -33,13 +31,6 @@ const TableHeader = ({ setAscending }) => {
   useEffect(() => {
     setAscending(sortedBy.ascendingOrder);
   }, [sortedBy]);
-
-  // [useEffect(() => {
-  //   dispatch({
-  //     type: 'sort',
-  //     sort: { field: sortedBy.field, ascendingOrder: sortedBy.ascendingOrder }
-  //   });
-  // }, [contracts, dispatch, sortedBy]);
 
   const caretDown = (
     <span className="caret">
@@ -73,35 +64,23 @@ const TableHeader = ({ setAscending }) => {
     <thead>
       <tr className="table-header">
         <th
-          onClick={() => sortContractsBy('contractname', !sortedBy.ascendingOrder)}
+          onClick={() =>
+            sortContractsBy('contractname', !sortedBy.ascendingOrder)
+          }
         >
           Contract Name
           {sortSymbol('contractname')}
         </th>
-        <th
-          // onClick={() => {
-          //   sortContractsBy('memberCount', !sortedBy.ascendingOrder);
-          // }}
-        >
-          Members
-          {/* {sortSymbol('memberCount')} */}
-        </th>
-        <th
-          // onClick={() => {
-          //   sortContractsBy('version', !sortedBy.ascendingOrder);
-          // }}
-        >
-          Version
-          {/* {sortSymbol('version')} */}
-        </th>
+        <th>Members</th>
+        <th>Version</th>
       </tr>
     </thead>
   );
 };
 
-// TableHeader.propTypes = {
-//   dispatch: PropTypes.func.isRequired,
-//   contracts: PropTypes.arrayOf(PropTypes.instanceOf(Contract)).isRequired
-// };
+TableHeader.propTypes = {
+  setAscending: PropTypes.oneOfType([PropTypes.bool, PropTypes.object])
+    .isRequired
+};
 
 export default TableHeader;

@@ -15,9 +15,7 @@
  */
 
 import { useEffect, useState } from 'react';
-import {
-  getCircuit
-} from '../api/splinter';
+import { getCircuit } from '../api/splinter';
 
 import { Circuit } from '../data/circuits';
 

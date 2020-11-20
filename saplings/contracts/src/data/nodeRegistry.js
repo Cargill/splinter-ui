@@ -15,31 +15,30 @@
  */
 
 function Node(data) {
-    if (!(this instanceof Node)) {
-      return new Node(data);
-    }
-  
-    this.identity = data.identity;
-    this.endpoints = data.endpoints;
-    this.displayName = data.display_name;
-    this.metadata = data.metadata;
+  if (!(this instanceof Node)) {
+    return new Node(data);
   }
-  
-  function NodeRegistryResponse(reponseData) {
-    this.data = reponseData.data.map(node => {
-      return new Node(node);
-    });
-    this.paging = {
-      current: reponseData.paging.current,
-      offset: reponseData.paging.offset,
-      limit: reponseData.paging.limit,
-      total: reponseData.paging.total,
-      first: reponseData.paging.first,
-      prev: reponseData.paging.prev,
-      next: reponseData.paging.next,
-      last: reponseData.paging.last
-    };
-  }
-  
-  export { NodeRegistryResponse, Node };
-  
+
+  this.identity = data.identity;
+  this.endpoints = data.endpoints;
+  this.displayName = data.display_name;
+  this.metadata = data.metadata;
+}
+
+function NodeRegistryResponse(reponseData) {
+  this.data = reponseData.data.map(node => {
+    return new Node(node);
+  });
+  this.paging = {
+    current: reponseData.paging.current,
+    offset: reponseData.paging.offset,
+    limit: reponseData.paging.limit,
+    total: reponseData.paging.total,
+    first: reponseData.paging.first,
+    prev: reponseData.paging.prev,
+    next: reponseData.paging.next,
+    last: reponseData.paging.last
+  };
+}
+
+export { NodeRegistryResponse, Node };

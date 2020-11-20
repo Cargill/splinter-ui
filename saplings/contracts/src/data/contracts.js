@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-function Contract(data) {
-    if (!(this instanceof Contract)) {
-      return new Contract(data);
-    }
-    this.name = data.name;
-    this.version = this.version;
-    this.inputs = this.inputs;
-    this.outputs = this.outputs;
-    
-
+export function Contract(data) {
+  if (!(this instanceof Contract)) {
+    return new Contract(data);
   }
+  this.name = data.name;
+  this.version = data.version;
+  this.inputs = data.inputs;
+  this.outputs = data.outputs;
+}

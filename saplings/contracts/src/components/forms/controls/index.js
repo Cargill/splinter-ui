@@ -16,8 +16,6 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-
-import Dropdown from 'react-dropdown';
 import Select from 'react-select';
 
 import 'react-dropdown/style.css';
@@ -73,14 +71,14 @@ export const ListBoxSelect = ({
         menuClassName="listbox-dropdown-placeholder"
         placeholder={selectedOpt.content}
         options={options.map(opt => ({ value: opt.value, label: opt.content }))}
-        onChange={(event) => {
+        onChange={event => {
           if (Array.isArray(event)) {
             const evt = {
               preventDefault: () => null,
               target: { name, value: [], label: [] }
             };
-            
-            event.forEach((elem) => {
+
+            event.forEach(elem => {
               evt.target.value.push(elem.value);
               evt.target.label.push(elem.label);
             });
@@ -164,13 +162,7 @@ TextField.defaultProps = {
   children: []
 };
 
-export const FileSelect = ({
-  name,
-  label,
-  error,
-  children,
-  ...props
-}) => (
+export const FileSelect = ({ name, label, error, children, ...props }) => (
   <InputWrapper label={label} error={error}>
     <div className="text-field-wrapper">
       {React.createElement('input', {

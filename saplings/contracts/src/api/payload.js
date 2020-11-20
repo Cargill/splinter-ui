@@ -14,117 +14,126 @@
  * limitations under the License.
  */
 
+import {
+  Secp256k1Signer,
+  Secp256k1PrivateKey,
+  BatchBuilder,
+  TransactionBuilder,
+  PublicKey
+} from 'transact-sdk-javascript';
 import protos from '../protobuf';
-import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder, PublicKey } from "transact-sdk-javascript";
 
- export const makePayload = (
-    private_key, 
-    public_key,
-    contract_name,
-    contract_registry_name,
-    inputs,
-    outputs, 
-    version, 
-    contract,
-    namespace_registries,
+export const makePayload = (
+  privateKey,
+  publicKey,
+  contractName,
+  contractRegistryName,
+  inputs,
+  outputs,
+  version,
+  contract,
+  namespaceRegistries,
+  owners
+) => {
+  let createContractRegistry = {};
+  let createContract = {};
+  let transactions = [];
+  const registryTransactions = [];
+  let batchBytes = null;
+  let transactionContractRegistry = null;
+  let transactionCreateContractAction = null;
+  const publicKeyBytes = PublicKey.fromHex(publicKey);
+
+  const secp256PrivateKey = Secp256k1PrivateKey.fromHex(privateKey);
+  const signer = new Secp256k1Signer(secp256PrivateKey);
+
+  createContractRegistry = protos.CreateContractRegistryAction.encode({
+    name: contractRegistryName,
     owners
- ) => {
-    let create_contact_registry = {};
-    let create_contract = {};
-    let transactions = [];
-    let registryTransactions = [];
-    let batchBytes = null;
-    let transaction_contact_registry = null;
-    let transaction_create_contract_action = null;
-    let publicKeyBytes = PublicKey.fromHex(public_key);
+  }).finish();
 
-    const secp256PrivateKey = Secp256k1PrivateKey.fromHex(private_key);
-    const signer = new Secp256k1Signer(secp256PrivateKey);
+  transactionContractRegistry = new TransactionBuilder()
+    .withBatcherPublicKey(publicKeyBytes)
+    .withDependencies([])
+    .withFamilyName('sabre')
+    .withFamilyVersion('1.0')
+    .withInputs(inputs)
+    .withOutputs(outputs)
+    .withPayload(createContractRegistry)
+    .build(signer);
 
-    create_contact_registry = protos.CreateContractRegistryAction.encode({
-        name: contract_registry_name,
-        owners: owners
+  createContract = protos.CreateContractAction.encode({
+    name: contractName,
+    version,
+    inputs,
+    outputs,
+    contract
+  }).finish();
+
+  transactionCreateContractAction = new TransactionBuilder()
+    .withBatcherPublicKey(publicKeyBytes)
+    .withDependencies([])
+    .withFamilyName('sabre')
+    .withFamilyVersion('1.0')
+    .withInputs(inputs)
+    .withOutputs(outputs)
+    .withPayload(createContract)
+    .build(signer);
+
+  namespaceRegistries.forEach(registry => {
+    let createNamespaceRegistry = {};
+    let createPermissions = {};
+    let transactionCreateNamespaceRegistryAction = null;
+    let transactionCreateNamespaceRegistryPermissionAction = null;
+
+    createNamespaceRegistry = protos.CreateNamespaceRegistryAction.encode({
+      namespace: registry.name,
+      owners: registry.owners
     }).finish();
-    
-    transaction_contact_registry = new TransactionBuilder()
-        .withBatcherPublicKey(publicKeyBytes)
-        .withDependencies([])
-        .withFamilyName('sabre')
-        .withFamilyVersion('1.0')
-        .withInputs(inputs)
-        .withOutputs(outputs)
-        .withPayload(create_contact_registry)
-        .build(signer);
-    
-    create_contract = protos.CreateContractAction.encode({
-        name: contract_name,
-        version: version,
-        inputs: inputs,
-        outputs: outputs,
-        contract: contract
+
+    transactionCreateNamespaceRegistryAction = new TransactionBuilder()
+      .withBatcherPublicKey(publicKeyBytes)
+      .withDependencies([])
+      .withFamilyName('sabre')
+      .withFamilyVersion('1.0')
+      .withInputs(inputs)
+      .withOutputs(outputs)
+      .withPayload(createNamespaceRegistry)
+      .build(signer);
+
+    createPermissions = protos.CreateNamespaceRegistryPermissionAction.encode({
+      namespace: registry.name,
+      contractName,
+      read: registry.read,
+      write: registry.write
     }).finish();
 
-    transaction_create_contract_action = new TransactionBuilder()
-        .withBatcherPublicKey(publicKeyBytes)
-        .withDependencies([])
-        .withFamilyName('sabre')
-        .withFamilyVersion('1.0')
-        .withInputs(inputs)
-        .withOutputs(outputs)
-        .withPayload(create_contract)
-        .build(signer);
+    transactionCreateNamespaceRegistryPermissionAction = new TransactionBuilder()
+      .withBatcherPublicKey(publicKeyBytes)
+      .withDependencies([])
+      .withFamilyName('sabre')
+      .withFamilyVersion('1.0')
+      .withInputs(inputs)
+      .withOutputs(outputs)
+      .withPayload(createPermissions)
+      .build(signer);
 
-    namespace_registries.forEach((registry) => {
-        let create_namespace_registry = {};
-        let create_permissions = {};
-        let transaction_create_namespace_registry_action = null;
-        let transaction_create_namespace_registry_permission_action = null;
+    registryTransactions.push([
+      transactionCreateNamespaceRegistryAction,
+      transactionCreateNamespaceRegistryPermissionAction
+    ]);
+  });
 
-        create_namespace_registry = protos.CreateNamespaceRegistryAction.encode({
-            namespace: registry.name,
-            owners: registry.owners
-        }).finish();
+  transactions = [transactionContractRegistry, transactionCreateContractAction];
+  registryTransactions.forEach(registryTransaction => {
+    transactions.push(registryTransaction[0]);
+    transactions.push(registryTransaction[1]);
+  });
 
-        transaction_create_namespace_registry_action = new TransactionBuilder()
-            .withBatcherPublicKey(publicKeyBytes)
-            .withDependencies([])
-            .withFamilyName('sabre')
-            .withFamilyVersion('1.0')
-            .withInputs(inputs)
-            .withOutputs(outputs)
-            .withPayload(create_namespace_registry)
-            .build(signer);
-    
-        create_permissions = protos.CreateNamespaceRegistryPermissionAction.encode({
-            namespace: registry.name,
-            contractName: contract_name,
-            read: registry.read,
-            write: registry.write
-        }).finish();
+  batchBytes = new BatchBuilder()
+    .withTransactions(transactions)
+    .withTrace(false)
+    .build(signer);
 
-        transaction_create_namespace_registry_permission_action = new TransactionBuilder()
-            .withBatcherPublicKey(publicKeyBytes)
-            .withDependencies([])
-            .withFamilyName('sabre')
-            .withFamilyVersion('1.0')
-            .withInputs(inputs)
-            .withOutputs(outputs)
-            .withPayload(create_permissions)
-            .build(signer);
-
-        registryTransactions.push([transaction_create_namespace_registry_action, transaction_create_namespace_registry_permission_action]);
-    });
-
-    transactions = [transaction_contact_registry, transaction_create_contract_action];
-    registryTransactions.forEach((registryTransaction) => {
-        transactions.push(registryTransaction[0]);
-        transactions.push(registryTransaction[1]);
-    });
-    
-    batchBytes = new BatchBuilder()
-        .withTransactions(transactions)
-        .withTrace(false)
-        .build(signer);
-
-    return batchBytes;
- }
+  return batchBytes;
+};

@@ -118,6 +118,10 @@ const CircuitDetails = ({ circuitId }) => {
   );
 };
 
+CircuitDetails.propTypes = {
+  circuitId: PropTypes.string.isRequired
+};
+
 const contains = (list, val) => !!list.find(v => v === val);
 
 const NodesTable = ({ circuit, nodes }) => {
