@@ -24,14 +24,11 @@ function NamespaceForm({
 
   useEffect(() => {
     const fetchNodes = async () => {
-      const res = await getNodes();
-      console.log(res);
       const nodeOptions = [];
 
       filteredNodes.forEach((node) => {
         nodeOptions.push({ value: node['keys'][0], content: node['display_name'] });
       });
-      console.log(nodeOptions);
 
       setAllNodes(nodeOptions);
     };

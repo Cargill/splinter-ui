@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 
 import { useLocalNodeState } from '../../../state/localNode';
-import { useNodeRegistryState } from '../../../state/nodeRegistry';
-import { useCircuitState } from '../../../state/circuits';
 import { MultiStepForm, Step } from '../MultiStepForm';
-import { createCallPayload, getNodeRegistry } from '../../../api/splinter';
+import { Circuit } from '../../../data/circuits';
+import { createCallPayload, getCircuit, getNodes } from '../../../api/splinter';
 import { SelectCircuit } from '../SelectCircuit';
 import { UploadFile } from '../UploadFile';
 import { CreateNamespace } from '../CreateNamespace';
@@ -24,19 +23,21 @@ export function UploadContractForm() {
   const [registries, setRegistries] = useState([]);
   const [contractRegistryName, setContractRegistryName] = useState('');
   const [filteredNodes, setFilteredNodes] = useState([]);
-  const [localNode, setLocalNode] = useState(null);
+  const [serviceID, setServiceID] = useState('');
   const localNodeID = useLocalNodeState();
 
   useEffect(() => {
-    const fetchNodes = async (circuitData) => {
+    const fetchNodes = async () => {
       try {
-        const apiNodes = await getNodeRegistry();
+        const apiCircuit = await getCircuit(selectedCircuit);
+        const circuit = new Circuit(apiCircuit);
 
-        const currNode = apiNodes.find(node => node.identity === localNodeID);
-        setLocalNode(currNode);
+        const localNodeRoster = circuit['roster'].find(node => node['allowedNodes'][0] === localNodeID);
+        setServiceID(localNodeRoster['serviceId']);
 
-        const apiFilteredNodes = apiNodes.filter(
-          node => !!circuitData.members.find(id => id === node.identity)
+        const apiNodes = await getNodes();
+        const apiFilteredNodes = apiNodes['data'].filter(
+          node => !!circuit.members.find(id => id === node.identity)
         );
         setFilteredNodes(apiFilteredNodes);
       } catch (e) {
@@ -45,16 +46,9 @@ export function UploadContractForm() {
     };
 
     if (selectedCircuit) {
-      const [circuit] = useCircuitState(selectedCircuit);
-      fetchNodes(circuit);
+      fetchNodes();
     }
   }, [selectedCircuit]);
-
-  console.log('local node');
-  console.log(localNode);
-
-  console.log('filtered nodes');
-  console.log(filteredNodes);
 
   function handleCircuitSelection(circuit) {
     setSelectedCircuit(circuit);
@@ -74,10 +68,15 @@ export function UploadContractForm() {
   function makeBatchCall() {
     history.push(`/contracts`);
 
-    let cr_name = contractRegistryName;
+    let crName = contractRegistryName;
     if (contractRegistryName === '') {
-      cr_name = name;
+      crName = name;
     }
+
+    let ownerKeys = []
+    filteredNodes.forEach((node) => {
+      ownerKeys.push(node['keys'][0])
+    });
 
     createCallPayload(
       selectedCircuit,
@@ -87,8 +86,9 @@ export function UploadContractForm() {
       inputs,
       outputs,
       registries,
-      cr_name,
-      filteredNodes
+      crName,
+      ownerKeys,
+      serviceID
     );
   }
 
@@ -136,8 +136,8 @@ export function UploadContractForm() {
     <MultiStepForm
       formName="Upload Contract"
       handleSubmit={makeBatchCall}
-      handleCancel={() => history.push(`/contracts`)} >
-      {/* // isStepValidFn={stepNumber => stepValidationFn(stepNumber)} > */}
+      handleCancel={() => history.push(`/contracts`)}
+      isStepValidFn={stepNumber => stepValidationFn(stepNumber)} >
       <Step step={1} label="Select Circuit">
         <div className="step-header">
           <div className="step-title">Select Circuit</div>

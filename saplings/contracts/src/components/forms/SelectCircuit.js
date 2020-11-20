@@ -11,7 +11,6 @@ export function SelectCircuit({ handleCircuitSelection }) {
   useEffect(() => {
     const fetchCircuits = async () => {
       const res = await listCircuits();
-      console.log(res);
       const circuitOptions = [];
 
       res['data'].forEach((elem) => {

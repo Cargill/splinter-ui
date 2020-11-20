@@ -46,7 +46,6 @@ Label.defaultProps = {
 };
 
 const CircuitDetails = ({ circuitId }) => {
-  console.log(circuitId);
   if (circuitId === '') {
     return <div />;
   }

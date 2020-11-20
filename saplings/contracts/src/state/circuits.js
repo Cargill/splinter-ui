@@ -16,7 +16,6 @@
 
 import { useEffect, useState } from 'react';
 import {
-  getProposal,
   getCircuit
 } from '../api/splinter';
 
@@ -35,13 +34,9 @@ function useCircuitState(circuitId) {
         try {
           apiCircuit = await getCircuit(stateCircuitId);
         } catch (circuitError) {
-          try {
-            apiCircuit = await getProposal(stateCircuitId);
-          } catch (proposalError) {
-            throw Error(
-              `Unable to fetch ${stateCircuitId} from the splinter daemon`
-            );
-          }
+          throw Error(
+            `Unable to fetch ${stateCircuitId} from the splinter daemon`
+          );
         }
 
         setCircuit(new Circuit(apiCircuit));

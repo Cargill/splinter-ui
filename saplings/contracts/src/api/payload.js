@@ -46,7 +46,15 @@ import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder,
         owners: owners
     }).finish();
     
-    transaction_contact_registry = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_contact_registry).build(signer);   
+    transaction_contact_registry = new TransactionBuilder()
+        .withBatcherPublicKey(publicKeyBytes)
+        .withDependencies([])
+        .withFamilyName('sabre')
+        .withFamilyVersion('1.0')
+        .withInputs(inputs)
+        .withOutputs(outputs)
+        .withPayload(create_contact_registry)
+        .build(signer);
     
     create_contract = protos.CreateContractAction.encode({
         name: contract_name,
@@ -56,7 +64,15 @@ import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder,
         contract: contract
     }).finish();
 
-    transaction_create_contract_action = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_contract).build(signer);
+    transaction_create_contract_action = new TransactionBuilder()
+        .withBatcherPublicKey(publicKeyBytes)
+        .withDependencies([])
+        .withFamilyName('sabre')
+        .withFamilyVersion('1.0')
+        .withInputs(inputs)
+        .withOutputs(outputs)
+        .withPayload(create_contract)
+        .build(signer);
 
     namespace_registries.forEach((registry) => {
         let create_namespace_registry = {};
@@ -69,7 +85,15 @@ import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder,
             owners: registry.owners
         }).finish();
 
-        transaction_create_namespace_registry_action = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_namespace_registry).build(signer);
+        transaction_create_namespace_registry_action = new TransactionBuilder()
+            .withBatcherPublicKey(publicKeyBytes)
+            .withDependencies([])
+            .withFamilyName('sabre')
+            .withFamilyVersion('1.0')
+            .withInputs(inputs)
+            .withOutputs(outputs)
+            .withPayload(create_namespace_registry)
+            .build(signer);
     
         create_permissions = protos.CreateNamespaceRegistryPermissionAction.encode({
             namespace: registry.name,
@@ -78,16 +102,29 @@ import { Secp256k1Signer, Secp256k1PrivateKey, BatchBuilder, TransactionBuilder,
             write: registry.write
         }).finish();
 
-        registryTransactions.push([transaction_create_namespace_registry_action, transaction_create_namespace_registry_permission_action]);
-    })
+        transaction_create_namespace_registry_permission_action = new TransactionBuilder()
+            .withBatcherPublicKey(publicKeyBytes)
+            .withDependencies([])
+            .withFamilyName('sabre')
+            .withFamilyVersion('1.0')
+            .withInputs(inputs)
+            .withOutputs(outputs)
+            .withPayload(create_permissions)
+            .build(signer);
 
-    transaction_create_namespace_registry_permission_action = new TransactionBuilder().withBatcherPublicKey(publicKeyBytes).withDependencies([]).withFamilyName('sabre').withFamilyVersion('1.0').withInputs(inputs).withOutputs(outputs).withPayload(create_permissions).build(signer);
+        registryTransactions.push([transaction_create_namespace_registry_action, transaction_create_namespace_registry_permission_action]);
+    });
 
     transactions = [transaction_contact_registry, transaction_create_contract_action];
     registryTransactions.forEach((registryTransaction) => {
-        transactions.push(registryTransaction);
+        transactions.push(registryTransaction[0]);
+        transactions.push(registryTransaction[1]);
     });
     
-    batchBytes = new BatchBuilder().withTransactions(transactions).withTrace(false).build(signer);
+    batchBytes = new BatchBuilder()
+        .withTransactions(transactions)
+        .withTrace(false)
+        .build(signer);
+
     return batchBytes;
  }

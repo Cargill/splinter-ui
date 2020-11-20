@@ -76,7 +76,8 @@ export const createCallPayload = async (
   ouputs,
   registries,
   contractRegistryName,
-  owners
+  owners,
+  serviceID
 ) => {
   const { privateKey, publicKey } = window.$CANOPY.getKeys();
 
@@ -92,17 +93,15 @@ export const createCallPayload = async (
     registries,
     owners
   );
-  console.log('here');
-  // try {
-  //   await postSmartContractPayload(payload_result, circuit);
-  // } catch (e) {
-  //   console.log(e);
-  // }
+  try {
+    await postSmartContractPayload(payload_result, circuit, serviceID);
+  } catch (e) {
+    console.log(e);
+  }
   
 };
 
-export const postSmartContractPayload = async (payload, circuit) => {
-  const serviceID = 'abcd';
+export const postSmartContractPayload = async (payload, circuit, serviceID) => {
   const result = await post(`${splinterURL}/scabbard/${circuit}/${serviceID}/batches`, payload);
   console.log(result);
   if (!result.ok) {
