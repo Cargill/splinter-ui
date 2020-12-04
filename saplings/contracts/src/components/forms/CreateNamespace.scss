@@ -1,0 +1,76 @@
+/**
+ * Copyright 2018-2020 Cargill Incorporated
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.create-namespace-form-wrapper {
+  height: 55vh;
+  overflow-y: scroll;
+
+  .create-namespace-form-header {
+    height: 20%;
+
+    .title {
+      color: var(--color-primary);
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .help-text {
+      color: var(--color-grey);
+      font-size: 0.8rem;
+      margin-bottom: 0.5rem;
+    }
+  }
+  
+  .namespace-form-footer {
+    float: right;
+    margin-top: '5px';
+    height: 10%;
+    border-top: 1px solid var(--color-light-grey);
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  .create-namespace-form-wrapper {
+    height: 100%;
+
+    .create-namespace-form-header {
+      height: 20%;
+    }
+  }
+}
+
+.create-btn {
+  margin: 20px 0 0 0;
+}
+
+.ns-table-container {
+  margin-top: 15px;
+  overflow: auto;
+
+  table, th, tr, td {
+    border: 1px solid black;
+  }
+
+  td {
+    text-align: center;
+    justify-items: center;
+  }
+
+  .ns-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+}

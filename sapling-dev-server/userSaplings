@@ -10,5 +10,17 @@
     ],
     "workerFiles": [],
     "icon": "http://localhost:3030/sapling-dev-server/circuits/images/circuits_logo.svg"
+  },
+  {
+    "displayName": "Contracts",
+    "namespace": "contracts",
+    "runtimeFiles": [
+      "localhost:3030/sapling-dev-server/contracts/static/js/contracts.js"
+    ],
+    "styleFiles": [
+      "localhost:3030/sapling-dev-server/contracts/static/css/contracts.css"
+    ],
+    "workerFiles": [],
+    "icon": "http://localhost:3030/sapling-dev-server/contracts/images/contracts_logo.svg"
   }
 ]
