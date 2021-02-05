@@ -15,10 +15,21 @@
  */
 import React from 'react';
 import './App.scss';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Profile } from './Profile';
+import { NewKey } from './components/NewKey';
 
 function App() {
-  return <Profile />;
+  return (
+    <div className="profile-app">
+      <Router>
+        <Switch>
+          <Route exact path="/profile" component={Profile}/>
+          <Route exact path="/profile/new-key" component={NewKey}/>
+        </Switch>
+      </Router>
+    </div>
+  );
 }
 
 export default App;

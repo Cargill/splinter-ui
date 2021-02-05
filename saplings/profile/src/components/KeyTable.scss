@@ -1,0 +1,216 @@
+.user-keys {
+  flex: 0 1 100%;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+
+  .keys-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    #keys-label {
+      font-family: Helvetica Neue;
+      font-style: normal;
+      font-weight: normal;
+      color: #595C60;
+      display: inline-block;
+      font-size: 36px;
+      width: 9rem;
+      padding-bottom: 0.5rem;
+    }
+  }
+
+  .table-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding-bottom: 10px;
+
+    .table-nav {
+      flex-direction: row;
+      display: flex;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      align-items: center;
+
+      .total-keys {
+        color: #595C60;
+        padding-right: 20px;
+      }
+
+      .row-info {
+        display: flex;
+        padding-left: 20px;
+        padding-right: 20px;
+
+        .rows-label {
+          color: var(--color-primary);
+          padding-right: 5px;
+        }
+
+        .rows-per-page {
+          color: #595C60;
+        }
+      }
+
+      .keys-currently-displayed {
+        color: #595C60;
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .paging {
+        display: flex;
+        padding-left: 20px;
+
+        .page-nav {
+          color: var(--color-primary);
+          display: flex;
+          padding: unset;
+          background: none;
+
+          &:hover {
+            color: var(--color-primary-dark)
+          }
+        }
+      }
+    }
+
+    .add-key {
+      border: none;
+      color: #ffffff;
+      background: var(--color-primary);
+      padding: 10px 14px;
+      font-family: Arial;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 14px;
+      padding-right: 26px;
+      border-radius: 3px;
+      align-items: center;
+      display: flex;
+      text-decoration: none;
+      box-shadow: 0px 2px 6px rgba(0,0,0,.14), 0px 1px 12px rgba(0,0,0,.12), 0px 2px 6px rgba(0,0,0,.1);
+
+      .icon {
+        color: #fff;
+        align-self: baseline;
+        height: 24px;
+        width: 24px;
+        font-size: 11px;
+        margin-right: 11px;
+        transform: scale(.75);
+      }
+
+      &:hover {
+        background: var(--color-primary-dark)
+      }
+    }
+  }
+  .table-actions.bottom {
+      padding-top: 10px;
+  }
+
+  .table-wrapper {
+    border-radius: 5px 5px 3px 3px;
+    overflow: hidden;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    background: #FFFFFF;
+    border-radius: 5px 5px 3px 3px;
+
+    tr {
+      border-bottom: 1px solid #ccd5de;
+    }
+
+    tr.empty-row {
+      height: 60px;
+      border-bottom: none;
+    }
+
+    th {
+      font-style: normal;
+      font-weight: bold;
+      font-size: 12px;
+      color: #545454;
+      padding: 24px 50px;
+      background: #E4E4E4E4;
+      text-align: left;
+    }
+
+    th#status-header {
+      text-align: center;
+    }
+
+    td {
+      font-size: 12px;
+      color: #595C60;
+      text-align: left;
+      padding: 8px;
+      border-bottom: 1px solid #CCD5DE;
+      padding: 11px 50px;
+
+      .status-active {
+        background: rgba(79, 189, 120, 0.46);
+        border-radius: 10px;
+        height: 20px;
+        width: 60px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .button-wrapper {
+
+        button#action-button{
+          background: rgba(216, 216, 216, 0.5);
+          display: flex;
+          justify-content: center;
+          border: none;
+          color: var(--color-primary);
+          width: 37px;
+          height: 37px;
+          align-items: center;
+          border-radius: 10px;
+          outline: none;
+
+          .action-options {
+            width: 0;
+            height: 0;
+            overflow: hidden;
+            color: var(--color-primary);
+            background: #EBEBEB;
+            transition: height .2s;
+            position: absolute;
+            border-radius: 2px;
+            filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+            display: flex;
+            align-items: center;
+            align-self: flex-start;
+            margin-top: 30px;
+            flex-direction: row;
+            justify-content: space-evenly;
+          }
+
+          &:hover {
+            .action-options {
+              width: 133px;
+              height: 49px;
+            }
+
+            .active {
+              @extend .action-options;
+              width: 94px;
+            }
+          }
+        }
+      }
+    }
+  }
+}
