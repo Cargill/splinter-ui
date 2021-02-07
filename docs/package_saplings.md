@@ -20,9 +20,9 @@ the process is complete, the packaged saplings will be placed in
 
 ```
 $ ls build
-circuit_0.1.1-dev.sapling
-profile_0.1.1-dev.sapling
-register-login_0.1.1-dev.sapling
+circuit_0.2.1-dev.sapling
+profile_0.2.1-dev.sapling
+register-login_0.2.1-dev.sapling
 ```
 
 It's also possible to create packages for individual saplings by providing the
