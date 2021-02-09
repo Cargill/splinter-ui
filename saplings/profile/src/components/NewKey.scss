@@ -1,0 +1,199 @@
+/**
+ * Copyright 2018-2021 Cargill Incorporated
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+#new-key {
+  height: 100vh;
+  background: #EEEEEE;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .sapling-header {
+    background: #ffffff;
+    position: relative;
+    display: flex;
+    padding: 1.5rem;
+    height: 56px;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.14), 0px 1px 12px rgba(0, 0, 0, 0.12), 0px 2px 6px rgba(0, 0, 0, 0.1);
+    justify-content: flex-start;
+    align-items: flex-end;
+
+    .sapling-name {
+      font-family: Arial;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 24px;
+      color: #595C60;
+      align-self: center;
+    }
+  }
+
+  .header {
+    height: 60px;
+  }
+
+  .form-box {
+    width: 1365px;
+    height: 560px;
+    background: #fff;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+
+    .form-header {
+      font-family: Helvetica Neue;
+      font-style: normal;
+      font-size: 32px;
+      font-weight: 500;
+      color: #595c60;
+      display: flex;
+      padding: 10px 0px;
+
+      .header-icon {
+        color: var(--color-primary);
+        padding: 0px 10px;
+      }
+    }
+
+    .line {
+      border-bottom: 1px solid #ccd5de;
+      width: 1296px;
+      align-self: center;
+    }
+
+    .key-form {
+      width: 745px;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 0px 0px 0px;
+
+      form {
+        display: flex;
+        flex-direction: column;
+
+        .input {
+          position: relative;
+          margin-top: .5rem;
+          padding: 50px 0px 35px 0px;
+    
+          label {
+            font-family: Arial;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+            color: #666;
+            display: flex;
+            flex-direction: column;
+
+            .field-required {
+              display: flex;
+              flex-direction: row;
+              padding: 0px 0px 10px 0px;
+
+              .required-indicator {
+                font-family: Arial;
+                font-style: normal;
+                font-weight: bold;
+                font-size: 14px;
+                color: var(--color-primary);
+                margin-left: 3px;
+              }
+            }
+          }
+
+          input {
+            height: 45px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            width: 670px;
+          }
+        }
+
+        .generate-key {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+
+          .generate-button {
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            border: none;
+            background-color: var(--color-primary);
+            width: 65px;
+            height: 45px;
+            align-items: center;
+            border-radius: 2px;
+            outline: none;
+            margin-left: 10px;
+
+            &:hover {
+              background: var(--color-primary-dark);
+            }
+          }
+        }
+
+        .action-buttons {
+          display: flex;
+          flex-direction: row;
+          align-self: flex-end;
+          margin: 15px 75px 0px 0px;
+
+          input#cancel {
+            width: 138px;
+            height: 45px;
+            align-self: flex-end;
+            color: var(--color-primary);
+            background: none;
+            border: none;
+            text-decoration: underline;
+            border-radius: 2px;
+            font-family: Arial;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+
+            &:hover {
+              color: var(--color-primary-dark);
+            }
+          }
+
+          input#submit-key {
+            width: 138px;
+            height: 45px;
+            align-self: flex-end;
+            background: var(--color-primary);
+            border: none;
+            border-radius: 2px;
+            color: #fff;
+            font-family: Arial;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 14px;
+
+            &:hover {
+              background: var(--color-primary-dark);
+            }
+          }
+        }
+      }
+    }
+  }
+}
