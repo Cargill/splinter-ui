@@ -21,27 +21,6 @@
   display: flex;
   flex-direction: column;
 
-  .sapling-header {
-    background: #ffffff;
-    position: relative;
-    display: flex;
-    padding: 1.5rem;
-    height: 56px;
-    box-sizing: border-box;
-    box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.14), 0px 1px 12px rgba(0, 0, 0, 0.12), 0px 2px 6px rgba(0, 0, 0, 0.1);
-    justify-content: flex-start;
-    align-items: flex-end;
-
-    .sapling-name {
-      font-family: Arial;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 24px;
-      color: #595C60;
-      align-self: center;
-    }
-  }
-
   .profile-info {
     box-sizing: content-box;
     position: relative;

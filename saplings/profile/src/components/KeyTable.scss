@@ -4,80 +4,12 @@
   display: flex;
   flex-direction: column;
 
-  .keys-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-
-    #keys-label {
-      font-family: Helvetica Neue;
-      font-style: normal;
-      font-weight: normal;
-      color: #595C60;
-      display: inline-block;
-      font-size: 36px;
-      width: 9rem;
-      padding-bottom: 0.5rem;
-    }
-  }
-
   .table-actions {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
     padding-bottom: 10px;
-
-    .table-nav {
-      flex-direction: row;
-      display: flex;
-      font-style: normal;
-      font-weight: bold;
-      font-size: 14px;
-      align-items: center;
-
-      .total-keys {
-        color: #595C60;
-        padding-right: 20px;
-      }
-
-      .row-info {
-        display: flex;
-        padding-left: 20px;
-        padding-right: 20px;
-
-        .rows-label {
-          color: var(--color-primary);
-          padding-right: 5px;
-        }
-
-        .rows-per-page {
-          color: #595C60;
-        }
-      }
-
-      .keys-currently-displayed {
-        color: #595C60;
-        padding-left: 20px;
-        padding-right: 20px;
-      }
-
-      .paging {
-        display: flex;
-        padding-left: 20px;
-
-        .page-nav {
-          color: var(--color-primary);
-          display: flex;
-          padding: unset;
-          background: none;
-
-          &:hover {
-            color: var(--color-primary-dark)
-          }
-        }
-      }
-    }
 
     .add-key {
       border: none;
@@ -109,9 +41,6 @@
         background: var(--color-primary-dark)
       }
     }
-  }
-  .table-actions.bottom {
-      padding-top: 10px;
   }
 
   .table-wrapper {

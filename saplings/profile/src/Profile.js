@@ -25,11 +25,6 @@ export function Profile() {
 
   return (
     <div id="profile">
-      <section className="sapling-header">
-        <div className="sapling-name">
-            Profile
-        </div>
-      </section>
       <section className="profile-info">
         <div className="profile-photo">
           <div className="icon">
