@@ -18,7 +18,7 @@ import './App.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Profile } from './Profile';
 import { NewKey } from './components/NewKey';
-import { SaplingHeader } from './components/SaplingHeader';
+import SaplingHeader from './components/SaplingHeader';
 
 function App() {
   return (

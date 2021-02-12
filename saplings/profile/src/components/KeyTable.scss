@@ -1,17 +1,17 @@
 .user-keys {
-  flex: 0 1 100%;
   align-self: center;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  padding: 1% 2%;
 
   .table-actions {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
     flex-direction: row;
-    padding-bottom: 10px;
+    justify-content: space-between;
+    padding: 1% 0%;
 
-    .add-key {
+    button#add-key {
       border: none;
       color: #ffffff;
       background: var(--color-primary);
@@ -25,6 +25,7 @@
       align-items: center;
       display: flex;
       text-decoration: none;
+      outline: none;
       box-shadow: 0px 2px 6px rgba(0,0,0,.14), 0px 1px 12px rgba(0,0,0,.12), 0px 2px 6px rgba(0,0,0,.1);
 
       .icon {
@@ -45,17 +46,19 @@
 
   .table-wrapper {
     border-radius: 5px 5px 3px 3px;
-    overflow: hidden;
+    overflow-x: scroll;
   }
 
   table {
     border-collapse: collapse;
     width: 100%;
     background: #FFFFFF;
+
     border-radius: 5px 5px 3px 3px;
 
     tr {
       border-bottom: 1px solid #ccd5de;
+      height: 60px;
     }
 
     tr.empty-row {
@@ -68,22 +71,39 @@
       font-weight: bold;
       font-size: 12px;
       color: #545454;
-      padding: 24px 50px;
+      padding: 2%;
       background: #E4E4E4E4;
       text-align: left;
     }
 
-    th#status-header {
-      text-align: center;
+    th#key-name-col {
+      min-width: 108px;
+    }
+
+    th#key-col {
+      min-width: 485px;
+    }
+
+    th#created-col {
+      min-width: 117px;
+    }
+
+    th#updated-col {
+      min-width: 117px;
+    }
+
+    th#status-col {
+      min-width: 88px;
+    }
+
+    th#action-col {
+      min-width: 88px;
     }
 
     td {
       font-size: 12px;
       color: #595C60;
-      text-align: left;
-      padding: 8px;
-      border-bottom: 1px solid #CCD5DE;
-      padding: 11px 50px;
+      padding: 0% 2%;
 
       .status-active {
         background: rgba(79, 189, 120, 0.46);
@@ -96,7 +116,6 @@
       }
 
       .button-wrapper {
-
         button#action-button{
           background: rgba(216, 216, 216, 0.5);
           display: flex;
@@ -122,9 +141,16 @@
             display: flex;
             align-items: center;
             align-self: flex-start;
-            margin-top: 30px;
+            margin-top: 20px;
             flex-direction: row;
             justify-content: space-evenly;
+
+            button.key-action-btn {
+              color: var(--color-primary);
+              background: #EBEBEB;
+              padding: unset;
+              outline: none;
+            }
           }
 
           &:hover {
@@ -140,6 +166,11 @@
           }
         }
       }
+    }
+
+    td.keys-empty {
+      height: 60px;
+      border-bottom: none;
     }
   }
 }
