@@ -44,6 +44,7 @@ const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
               {!isActive &&
                 <button
                   className="key-action-btn"
+                  title="Activate key"
                   onClick={e => {
                     e.preventDefault();
                     onActivate(key);
@@ -53,6 +54,7 @@ const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
                 </button>}
                 <button
                   className="key-action-btn"
+                  title="Edit key name"
                   onClick={e => {
                       e.preventDefault();
                       onEdit(key);
@@ -60,7 +62,9 @@ const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
                   >
                   <Icon>edit_icon</Icon>
                 </button>
-                <button className="key-action-btn">
+                <button
+                  className="key-action-btn"
+                  title="Delete key">
                   <Icon>delete_icon</Icon>
                 </button>
               </span>
@@ -82,7 +86,8 @@ const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
         <KeyTableNav totalKeys={keys.length} />
         <button
           id="add-key"
-          onClick={onAdd}>
+          onClick={onAdd}
+          title="Click to add new key">
           <div className="icon"><Icon>add_icon</Icon></div>
           New Key
         </button>

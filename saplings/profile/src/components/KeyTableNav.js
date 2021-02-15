@@ -29,8 +29,12 @@ const KeyTableNav = ({ totalKeys }) => {
       </div>
       <div className="keys-currently-displayed">1-{totalKeys} of {totalKeys}</div>
       <div className="paging">
-        <div className="page-nav"><Icon>keyboard_arrow_left_icon</Icon></div>
-        <div className="page-nav"><Icon>keyboard_arrow_right_icon</Icon></div>
+        <div className="page-nav" title="Click to go to the previous page">
+          <Icon>keyboard_arrow_left_icon</Icon>
+        </div>
+        <div className="page-nav" title="Click to go to the next page">
+          <Icon>keyboard_arrow_right_icon</Icon>
+        </div>
       </div>
     </div>
   );
