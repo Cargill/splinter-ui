@@ -18,14 +18,21 @@ import './App.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Profile } from './Profile';
 import { NewKey } from './components/NewKey';
+import SaplingHeader from './components/SaplingHeader';
 
 function App() {
   return (
     <div className="profile-app">
       <Router>
         <Switch>
-          <Route exact path="/profile" component={Profile}/>
-          <Route exact path="/profile/new-key" component={NewKey}/>
+          <Route exact path="/profile">
+            <SaplingHeader saplingName="Profile"/>
+            <Profile />
+          </Route>
+          <Route exact path="/profile/new-key">
+            <SaplingHeader saplingName="Profile"/>
+            <NewKey />
+          </Route>
         </Switch>
       </Router>
     </div>

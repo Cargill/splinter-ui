@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2020 Cargill Incorporated
+ * Copyright 2018-2021 Cargill Incorporated
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,23 @@
  * limitations under the License.
  */
 
-.profile-app {
+#sapling-header {
+  background: #ffffff;
+  position: relative;
   display: flex;
-  flex-direction: column;
-  background: #EEEEEE;
+  padding: 1.5rem;
+  height: 56px;
+  box-sizing: border-box;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.14), 0px 1px 12px rgba(0, 0, 0, 0.12), 0px 2px 6px rgba(0, 0, 0, 0.1);
+  justify-content: flex-start;
+  align-items: flex-end;
+
+  .sapling-name {
+    font-family: Arial;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    color: #595C60;
+    align-self: center;
+  }
 }

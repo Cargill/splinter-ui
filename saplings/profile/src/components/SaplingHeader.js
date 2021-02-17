@@ -1,5 +1,5 @@
 /**
- * Copyright 2018-2020 Cargill Incorporated
+ * Copyright 2018-2021 Cargill Incorporated
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,22 @@
  * limitations under the License.
  */
 
-.profile-app {
-  display: flex;
-  flex-direction: column;
-  background: #EEEEEE;
+import React from 'react';
+import PropTypes from 'prop-types';
+import './SaplingHeader.scss';
+
+const SaplingHeader = ({ saplingName }) => {
+  return (
+    <section id="sapling-header">
+    <div className="sapling-name">
+      {saplingName}
+    </div>
+  </section>
+  );
 }
+
+SaplingHeader.propTypes = {
+  saplingName: PropTypes.string.isRequired,
+};
+
+export default SaplingHeader;
