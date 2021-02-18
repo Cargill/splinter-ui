@@ -19,9 +19,10 @@ import PropTypes from 'prop-types';
 import TablePagination from '@material-ui/core/TablePagination';
 import './KeyTableNav.scss';
 
-const KeyTableNav = ({ totalKeys, rowsPerPage, page, onChangePage }) => {
+const KeyTableNav = ({ totalKeys, rowsPerPage, page, onChangePage, position }) => {
+  const isBottom = position === 'bottom';
   return (
-    <div className="table-nav">
+    <div className={`table-nav ${isBottom ? 'bottom' : ''}`}>
       <div className="total-keys">{totalKeys} Keys</div>
       <div className="row-info">
         <div className="rows-label">Rows per page:</div>
@@ -44,6 +45,11 @@ KeyTableNav.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
   page: PropTypes.object.isRequired,
   onChangePage: PropTypes.func.isRequired,
+  position: PropTypes.string,
 };
+
+KeyTableNav.defaultProps = {
+  position: null,
+}
 
 export default KeyTableNav;

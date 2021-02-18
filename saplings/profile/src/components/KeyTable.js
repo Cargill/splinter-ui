@@ -130,6 +130,7 @@ const KeyTable = ({ keys, activeKey, rowsPerPage, onAdd, onActivate, onEdit }) =
         rowsPerPage={rowsPerPage}
         page={page}
         onChangePage={handleChangePage}
+        position='bottom'
       />
       </div>
     </section>
