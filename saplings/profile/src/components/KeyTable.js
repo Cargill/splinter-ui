@@ -14,13 +14,18 @@
  * limitations under the License.
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import './KeyTable.scss';
 import PropTypes from 'prop-types';
 import Icon from '@material-ui/core/Icon';
 import KeyTableNav from './KeyTableNav';
 
-const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
+const KeyTable = ({ keys, activeKey, rowsPerPage, onAdd, onActivate, onEdit }) => {
+  const [page, setPage] = useState(0);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
 
   const emptyRows = [];
   const rows = keys.map(key => {
@@ -74,16 +79,25 @@ const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
       </tr>
     )
   })
-  if (keys.length < 10) {
-    for (let i=0; i < 10-keys.length; i+=1) {
-      emptyRows.push(<tr className="empty-row"><td colSpan="6" className="keys-empty" /></tr>)
-    }
+
+  const numberEmptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
+
+  for (let i=0; i < numberEmptyRows; i+=1) {
+    emptyRows.push(<tr className="empty-row"><td colSpan="6" className="keys-empty" /></tr>)
   }
+
+  const start = page * rowsPerPage;
+  const end = parseFloat(page * rowsPerPage)+parseFloat(rowsPerPage);
 
   return (
     <section className="user-keys">
       <div className="table-actions">
-        <KeyTableNav totalKeys={keys.length} />
+        <KeyTableNav
+          totalKeys={keys.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={handleChangePage}
+        />
         <button
           id="add-key"
           onClick={onAdd}
@@ -104,11 +118,19 @@ const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
               <th id="action-col">Action</th>
             </tr>
           </thead>
-          <tbody>{rows}{emptyRows}</tbody>
+          <tbody>
+            {rows.slice(start,end)}
+            {numberEmptyRows > 0 && emptyRows}
+          </tbody>
         </table>
       </div>
       <div className="table-actions">
-        <KeyTableNav totalKeys={keys.length} />
+      <KeyTableNav
+        totalKeys={keys.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onChangePage={handleChangePage}
+      />
       </div>
     </section>
   );
@@ -117,13 +139,15 @@ const KeyTable = ({ keys, activeKey, onAdd, onActivate, onEdit }) => {
 KeyTable.propTypes = {
   keys: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeKey: PropTypes.string,
+  rowsPerPage: PropTypes.number,
   onAdd: PropTypes.func.isRequired,
   onActivate: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
 };
 
 KeyTable.defaultProps = {
-  activeKey: null
+  activeKey: null,
+  rowsPerPage: 10
 };
 
 export default KeyTable;

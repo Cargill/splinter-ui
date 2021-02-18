@@ -191,6 +191,7 @@ export function Profile() {
         <KeyTable
           keys={keys}
           activeKey={stateKeys && stateKeys.publicKey}
+          rowsPerPage='10'
           onAdd={() => openModalForm('add-key', {
             successFn: value => addKeyCallback(value)
           })}
