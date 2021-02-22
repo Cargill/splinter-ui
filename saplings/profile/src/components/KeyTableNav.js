@@ -16,28 +16,40 @@
 
 import React from 'react';
 import PropTypes from 'prop-types';
-import Icon from '@material-ui/core/Icon';
+import TablePagination from '@material-ui/core/TablePagination';
 import './KeyTableNav.scss';
 
-const KeyTableNav = ({ totalKeys }) => {
+const KeyTableNav = ({ totalKeys, rowsPerPage, page, onChangePage, position }) => {
+  const isBottom = position === 'bottom';
   return (
-    <div className="table-nav">
+    <div className={`table-nav ${isBottom ? 'bottom' : ''}`}>
       <div className="total-keys">{totalKeys} Keys</div>
       <div className="row-info">
         <div className="rows-label">Rows per page:</div>
-        <div className="rows-per-page">10</div>
+        <div className="rows-per-page">{rowsPerPage}</div>
       </div>
-      <div className="keys-currently-displayed">1-{totalKeys} of {totalKeys}</div>
-      <div className="paging">
-        <div className="page-nav"><Icon>keyboard_arrow_left_icon</Icon></div>
-        <div className="page-nav"><Icon>keyboard_arrow_right_icon</Icon></div>
-      </div>
+      <TablePagination
+          component="div"
+          count={totalKeys}
+          rowsPerPageOptions={[rowsPerPage]}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onChangePage={onChangePage}
+      />
     </div>
   );
 };
 
 KeyTableNav.propTypes = {
   totalKeys: PropTypes.number.isRequired,
+  rowsPerPage: PropTypes.number.isRequired,
+  page: PropTypes.object.isRequired,
+  onChangePage: PropTypes.func.isRequired,
+  position: PropTypes.string,
 };
+
+KeyTableNav.defaultProps = {
+  position: null,
+}
 
 export default KeyTableNav;

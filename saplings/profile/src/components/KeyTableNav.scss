@@ -43,6 +43,19 @@
     }
   }
 
+  .MuiTablePagination-caption {
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    color: #595C60;
+  }
+
+  button.MuiButtonBase-root {
+    color: var(--color-primary) !important;
+    padding: unset !important;
+    background: none !important;
+  }
+
   .keys-currently-displayed {
     color: #595C60;
     padding-left: 20px;
@@ -64,4 +77,8 @@
       }
     }
   }
+}
+
+.bottom {
+  position: absolute;
 }

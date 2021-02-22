@@ -20,6 +20,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-router-dom": "^5.1.2",
+    "react-table": "^7.6.3",
     "sjcl": "^1.0.8",
     "splinter-saplingjs": "github:cargill/splinter-saplingjs#master",
     "transact-sdk-javascript": "github:hyperledger/transact-sdk-javascript#master"
