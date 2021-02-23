@@ -43,8 +43,16 @@ export function Profile() {
   const [stateKeys, setStateKeys] = useState(getKeys);
   const user = getUser();
 
+  const sortKeysActive = (allKeys, publicKey) => {
+    const keyIndex = allKeys.findIndex(key => key.public_key === publicKey);
+    const activeKey = allKeys[keyIndex];
+    allKeys.splice(keyIndex, 1);
+    setKeys([activeKey,...allKeys]);
+  };
+
   useEffect(() => {
     async function fetchUserKeys() {
+      let allKeys = [];
       if (user) {
         try {
           const { splinterURL } = getSharedConfig().canopyConfig;
@@ -56,7 +64,12 @@ export function Profile() {
               request.setRequestHeader('Authorization', `Bearer ${user.token}`);
             }
           );
-          setKeys(JSON.parse(userKeys).data);
+          allKeys = JSON.parse(userKeys).data;
+          if (stateKeys) {
+            sortKeysActive(allKeys, stateKeys.publicKey);
+          } else {
+            setKeys(allKeys);
+          }
         } catch (err) {
           switch (err.code) {
             case '401':
@@ -81,13 +94,6 @@ export function Profile() {
       params: adata
     });
     setModalActive(true);
-  };
-
-  const sortKeysActive = (allKeys, publicKey) => {
-    const keyIndex = allKeys.findIndex(key => key.public_key === publicKey);
-    const activeKey = allKeys[keyIndex];
-    allKeys.splice(keyIndex, 1);
-    setKeys([activeKey,...allKeys]);
   };
 
   sortKeysActive.propTypes = {
