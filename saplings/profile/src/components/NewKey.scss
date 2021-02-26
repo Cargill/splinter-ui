@@ -16,7 +16,6 @@
 
 #new-key {
   height: 100vh;
-  background: #EEEEEE;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -47,12 +46,13 @@
   }
 
   .form-box {
-    width: 1365px;
-    height: 560px;
+    width: 100%;
     background: #fff;
     align-self: center;
+    align-items: center;
     display: flex;
     flex-direction: column;
+    overflow-x: scroll;
 
     .form-header {
       font-family: Helvetica Neue;
@@ -62,6 +62,7 @@
       color: #595c60;
       display: flex;
       padding: 10px 0px;
+      align-self: flex-start;
 
       .header-icon {
         color: var(--color-primary);
@@ -71,20 +72,23 @@
 
     .line {
       border-bottom: 1px solid #ccd5de;
-      width: 1296px;
+      width: 97%;
       align-self: center;
     }
 
     .key-form {
-      width: 745px;
+      width: 100%;
+      min-height: 510px;
       align-self: center;
+      align-items: center;
+      justify-content: center;
       display: flex;
-      flex-direction: column;
-      padding: 30px 0px 0px 0px;
+      padding: 5% 2% 2% 2%;
 
       form {
         display: flex;
         flex-direction: column;
+        width: 745px;
 
         .input {
           position: relative;
@@ -96,14 +100,14 @@
             font-style: normal;
             font-weight: bold;
             font-size: 14px;
-            color: #666;
+            color: var(--color-grey);
             display: flex;
             flex-direction: column;
 
             .field-required {
               display: flex;
               flex-direction: row;
-              padding: 0px 0px 10px 0px;
+              padding: 0px 0px 4px 4px;
 
               .required-indicator {
                 font-family: Arial;
@@ -118,10 +122,15 @@
 
           input {
             height: 45px;
-            border: 1px solid #ddd;
+            border: 2px solid var(--color-primary-light);
             border-radius: 5px;
             padding: 10px;
             width: 670px;
+
+            &:focus {
+              outline: none;
+              border-color: var(--color-primary);
+            }
           }
         }
 
@@ -136,7 +145,7 @@
             width: 24px;
             margin-left: 631px;
             position: absolute;
-            color: var(--text-light);
+            color: var(--color-grey);
             display: flex;
             border: none;
             background: unset;
@@ -144,7 +153,7 @@
 
             &:hover {
               cursor: pointer;
-              color: var(--text-primary);
+              color: var(--color-dark-grey);
             }
           }
         }
@@ -155,40 +164,51 @@
           align-self: flex-end;
           margin: 15px 75px 0px 0px;
 
-          input#cancel {
+          button#cancel {
             width: 138px;
             height: 45px;
-            align-self: flex-end;
+            align-items: center;
+            justify-content: center;
+            display: flex;
             color: var(--color-primary);
             background: none;
             border: none;
             text-decoration: underline;
-            border-radius: 2px;
             font-family: Arial;
             font-style: normal;
             font-weight: bold;
             font-size: 14px;
+            outline: none;
+            letter-spacing: normal;
 
             &:hover {
               color: var(--color-primary-dark);
+              cursor: pointer;
             }
           }
 
-          input#submit-key {
+          button#submit-key {
             width: 138px;
             height: 45px;
-            align-self: flex-end;
-            background: var(--color-primary);
             border: none;
-            border-radius: 2px;
-            color: #fff;
+            color: #ffffff;
+            background: var(--color-primary);
             font-family: Arial;
             font-style: normal;
             font-weight: bold;
             font-size: 14px;
+            border-radius: 3px;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            text-decoration: none;
+            outline: none;
+            letter-spacing: normal;
+            box-shadow: 0px 2px 6px rgba(0,0,0,.14), 0px 1px 12px rgba(0,0,0,.12), 0px 2px 6px rgba(0,0,0,.1);
 
             &:hover {
               background: var(--color-primary-dark);
+              cursor: pointer;
             }
           }
         }
