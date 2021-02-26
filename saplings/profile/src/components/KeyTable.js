@@ -15,6 +15,7 @@
  */
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import './KeyTable.scss';
 import PropTypes from 'prop-types';
 import Icon from '@material-ui/core/Icon';
@@ -98,13 +99,14 @@ const KeyTable = ({ keys, activeKey, rowsPerPage, onActivate, onEdit }) => {
           page={page}
           onChangePage={handleChangePage}
         />
-        <button
-          id="add-key"
-          onClick={onAdd}
-          title="Click to add new key">
+        <Link
+          className="add-key"
+          title="Click to add new key"
+          to='/profile/new-key'
+        >
           <div className="icon"><Icon>add_icon</Icon></div>
           New Key
-        </button>
+        </Link>
       </div>
       <div className="table-wrapper">
         <table>
