@@ -137,11 +137,6 @@ export function NewKey({keys, setKeys}) {
 
   return (
     <div id="new-key">
-      <section className="sapling-header">
-        <div className="sapling-name">
-          Profile
-        </div>
-      </section>
         <div className="header" />
         <div className="form-box">
           <div className="form-header">
