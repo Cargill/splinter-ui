@@ -20,7 +20,7 @@ import PropTypes from 'prop-types';
 import Icon from '@material-ui/core/Icon';
 import KeyTableNav from './KeyTableNav';
 
-const KeyTable = ({ keys, activeKey, rowsPerPage, onAdd, onActivate, onEdit }) => {
+const KeyTable = ({ keys, activeKey, rowsPerPage, onActivate, onEdit }) => {
   const [page, setPage] = useState(0);
 
   const handleChangePage = (event, newPage) => {
@@ -141,7 +141,6 @@ KeyTable.propTypes = {
   keys: PropTypes.arrayOf(PropTypes.object).isRequired,
   activeKey: PropTypes.string,
   rowsPerPage: PropTypes.number,
-  onAdd: PropTypes.func.isRequired,
   onActivate: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
 };
