@@ -40,8 +40,57 @@ export function Profile() {
     params: {}
   });
   const [keys, setKeys] = useState([]);
+  const [profile, setProfile] = useState({
+    userId: '',
+    subject: '',
+    name: '',
+    givenName: '',
+    familyName: '',
+    email: '',
+    picture: ''
+  });
   const [stateKeys, setStateKeys] = useState(getKeys);
   const user = getUser();
+
+  useEffect(() => {
+    async function fetchUserProfile() {
+      if (user) {
+        try {
+          const { splinterURL } = getSharedConfig().canopyConfig;
+          const userProfile = await http(
+            'GET',
+            `${splinterURL}/biome/profile`,
+            {},
+            request => {
+              request.setRequestHeader('Authorization', `Bearer ${user.token}`);
+            }
+          );
+          setProfile(JSON.parse(userProfile));
+        } catch (err) {
+          switch (err.status) {
+            case 401: {
+              window.location.href = `${window.location.origin}/login`;
+              break;
+            }
+            case 404: {
+              if (user) {
+                setProfile({
+                  ...profile,
+                  name: user.displayName
+                });
+              }
+              break;
+            }
+            default:
+              break;
+          }
+        }
+      } else {
+        window.location.href = `${window.location.origin}/login`;
+      }
+    }
+    fetchUserProfile();
+  }, [user]);
 
   useEffect(() => {
     async function fetchUserKeys() {
@@ -199,8 +248,8 @@ export function Profile() {
           </div>
         </div>
         <div className="user-details">
-          <div className="name">{user && user.displayName}</div>
-          <div className="email">email@email.com</div>
+          <div className="name">{profile.name}</div>
+          <div className="email">{profile.email}</div>
         </div>
       </section>
       <section id="user-key-table">
