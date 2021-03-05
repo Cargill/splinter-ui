@@ -17,7 +17,6 @@
 import React, { useEffect, useState } from 'react';
 import './Profile.scss';
 import proptypes from 'prop-types';
-import Icon from '@material-ui/core/Icon';
 import {
   decryptKey,
   getKeys,
@@ -26,6 +25,7 @@ import {
   setKeys as setSigningKeys
 } from 'splinter-saplingjs';
 import KeyTable from './components/KeyTable';
+import { DisplayProfilePicture } from './components/DisplayProfilePicture';
 import { ChangePasswordForm } from './forms/ChangePasswordForm';
 import { AddKeyForm } from './forms/AddKeyForm';
 import { UpdateKeyForm } from './forms/UpdateKeyForm';
@@ -243,9 +243,7 @@ export function Profile() {
     <div id="profile">
       <section className="profile-info">
         <div className="profile-photo">
-          <div className="icon">
-            <Icon>person_icon</Icon>
-          </div>
+          <DisplayProfilePicture image={profile.picture} />
         </div>
         <div className="user-details">
           <div className="name">{profile.name}</div>
