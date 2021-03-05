@@ -58,8 +58,8 @@ export function Profile() {
           );
           setKeys(JSON.parse(userKeys).data);
         } catch (err) {
-          switch (err.code) {
-            case '401':
+          switch (err.status) {
+            case 401:
               window.location.href = `${window.location.origin}/login`;
               break;
             default:
@@ -115,8 +115,8 @@ export function Profile() {
         setKeys(allKeys);
       }
     } catch (err) {
-      switch (err.code) {
-        case '401':
+      switch (err.status) {
+        case 401:
           window.location.href = `${window.location.origin}/login`;
           break;
         default:

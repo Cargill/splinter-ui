@@ -33,7 +33,7 @@ export async function http(method, url, data, headerFn) {
       if (request.status >= 200 && request.status < 300) {
         resolve(request.response);
       } else {
-        reject(request.response);
+        reject(request);
       }
     };
     request.onerror = () => {
