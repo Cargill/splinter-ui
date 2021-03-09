@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import React from 'react';
+import React, { useState } from 'react';
 import './App.scss';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Profile } from './Profile';
@@ -21,17 +21,18 @@ import { NewKey } from './components/NewKey';
 import SaplingHeader from './components/SaplingHeader';
 
 function App() {
+  const [keys, setKeys] = useState([]);
   return (
     <div className="profile-app">
       <Router>
         <Switch>
           <Route exact path="/profile">
-            <SaplingHeader saplingName="Profile"/>
-            <Profile />
+            <SaplingHeader saplingName="Profile" />
+            <Profile keys={keys} setKeys={setKeys} />
           </Route>
-          <Route exact path="/profile/new-key">
-            <SaplingHeader saplingName="Profile"/>
-            <NewKey />
+          <Route path="/profile/new-key">
+            <SaplingHeader saplingName="Profile" />
+            <NewKey keys={keys} setKeys={setKeys} />
           </Route>
         </Switch>
       </Router>

@@ -33,13 +33,12 @@ import { EnterPasswordForm } from './forms/EnterPasswordForm';
 import { OverlayModal } from './OverlayModal';
 import { http } from './http';
 
-export function Profile() {
+export function Profile({keys, setKeys}) {
   const [modalActive, setModalActive] = useState(false);
   const [form, setForm] = useState({
     formName: '',
     params: {}
   });
-  const [keys, setKeys] = useState([]);
   const [profile, setProfile] = useState({
     userId: '',
     subject: '',
@@ -240,11 +239,6 @@ export function Profile() {
     }
   };
 
-  const addKeyCallback = key => {
-    setKeys([...keys, key]);
-    setModalActive(false);
-  };
-
   return (
     <div id="profile">
       <section className="profile-info">
@@ -264,9 +258,6 @@ export function Profile() {
           keys={keys}
           activeKey={stateKeys && stateKeys.publicKey}
           rowsPerPage='10'
-          onAdd={() => openModalForm('add-key', {
-            successFn: value => addKeyCallback(value)
-          })}
           onActivate={key => activateKey(key)}
           onEdit={key => openModalForm('update-key', { key })}
         />
@@ -277,3 +268,8 @@ export function Profile() {
     </div>
   );
 }
+
+Profile.propTypes = {
+  keys: proptypes.arrayOf(proptypes.object).isRequired,
+  setKeys: proptypes.func.isRequired
+};
