@@ -17,7 +17,6 @@
 import React, { useEffect, useState } from 'react';
 import './Profile.scss';
 import proptypes from 'prop-types';
-import Icon from '@material-ui/core/Icon';
 import {
   decryptKey,
   getKeys,
@@ -26,6 +25,7 @@ import {
   setKeys as setSigningKeys
 } from 'splinter-saplingjs';
 import KeyTable from './components/KeyTable';
+import { DisplayProfilePicture } from './components/DisplayProfilePicture';
 import { ChangePasswordForm } from './forms/ChangePasswordForm';
 import { AddKeyForm } from './forms/AddKeyForm';
 import { UpdateKeyForm } from './forms/UpdateKeyForm';
@@ -40,6 +40,15 @@ export function Profile() {
     params: {}
   });
   const [keys, setKeys] = useState([]);
+  const [profile, setProfile] = useState({
+    userId: '',
+    subject: '',
+    name: '',
+    givenName: '',
+    familyName: '',
+    email: '',
+    picture: ''
+  });
   const [stateKeys, setStateKeys] = useState(getKeys);
   const user = getUser();
 
@@ -49,6 +58,46 @@ export function Profile() {
     allKeys.splice(keyIndex, 1);
     setKeys([activeKey,...allKeys]);
   };
+
+  useEffect(() => {
+    async function fetchUserProfile() {
+      if (user) {
+        try {
+          const { splinterURL } = getSharedConfig().canopyConfig;
+          const userProfile = await http(
+            'GET',
+            `${splinterURL}/biome/profile`,
+            {},
+            request => {
+              request.setRequestHeader('Authorization', `Bearer ${user.token}`);
+            }
+          );
+          setProfile(JSON.parse(userProfile));
+        } catch (err) {
+          switch (err.status) {
+            case 401: {
+              window.location.href = `${window.location.origin}/login`;
+              break;
+            }
+            case 404: {
+              if (user) {
+                setProfile({
+                  ...profile,
+                  name: user.displayName
+                });
+              }
+              break;
+            }
+            default:
+              break;
+          }
+        }
+      } else {
+        window.location.href = `${window.location.origin}/login`;
+      }
+    }
+    fetchUserProfile();
+  }, [user]);
 
   useEffect(() => {
     async function fetchUserKeys() {
@@ -71,8 +120,8 @@ export function Profile() {
             setKeys(allKeys);
           }
         } catch (err) {
-          switch (err.code) {
-            case '401':
+          switch (err.status) {
+            case 401:
               window.location.href = `${window.location.origin}/login`;
               break;
             default:
@@ -121,8 +170,8 @@ export function Profile() {
         setKeys(allKeys);
       }
     } catch (err) {
-      switch (err.code) {
-        case '401':
+      switch (err.status) {
+        case 401:
           window.location.href = `${window.location.origin}/login`;
           break;
         default:
@@ -200,13 +249,11 @@ export function Profile() {
     <div id="profile">
       <section className="profile-info">
         <div className="profile-photo">
-          <div className="icon">
-            <Icon>person_icon</Icon>
-          </div>
+          <DisplayProfilePicture image={profile.picture} />
         </div>
         <div className="user-details">
-          <div className="name">{user && user.displayName}</div>
-          <div className="email">email@email.com</div>
+          <div className="name">{profile.name}</div>
+          <div className="email">{profile.email}</div>
         </div>
       </section>
       <section id="user-key-table">

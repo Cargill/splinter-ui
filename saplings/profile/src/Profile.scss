@@ -38,15 +38,7 @@
       align-items: center;
       display: flex;
       margin: 2% 2% 0% 0%;
-
-      .icon {
-        height: 102px;
-        width: 102px;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-        transform: scale(4);
-      }
+      overflow: hidden;
     }
     .user-details {
       display: flex;
@@ -122,7 +114,7 @@
 
     .label {
       width: fit-content;
-      color: var(--color-text-light--on-dark);
+      color: var(--color-text-light-on-dark);
     }
 
     .value {
