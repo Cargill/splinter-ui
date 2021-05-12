@@ -1,4 +1,4 @@
-## Maintainers
+## Traintainers
 
 ### Active Maintainers
 | Name | GitHub |
