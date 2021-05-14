@@ -17,7 +17,7 @@
 import React, { useState } from 'react';
 import proptypes from 'prop-types';
 import { encryptKey, getSharedConfig } from 'splinter-saplingjs';
-import { Secp256k1Context, Secp256k1PrivateKey } from 'transact-sdk-javascript';
+import { Secp256k1Context, Secp256k1PrivateKey } from 'transact-sdk';
 import Icon from '@material-ui/core/Icon';
 import crypto from 'crypto';
 import { Loader } from '../Loader';
