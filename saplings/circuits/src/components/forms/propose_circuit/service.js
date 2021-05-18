@@ -241,18 +241,22 @@ export const ServiceForm = ({ nodes, onComplete, onCancel, service }) => {
 
   const validators = {
     'service-id': val => {
-      if (!val || val.length !== 4) {
+      const { length } = val;
+      if (!val || length !== 4) {
         return 'Invalid service ID: It must be 4 characters long';
       }
 
       const regex = /^[a-zA-Z0-9]+$/i;
+      // April 16, 2021; ignoring due to https://github.com/yannickcr/eslint-plugin-react/issues/2960
+      // eslint-disable-next-line react/destructuring-assignment
       if (!val.match(regex)) {
         return 'Invalid service ID. It must contain only ASCII alphanumeric characters.';
       }
       return null;
     },
     'service-type': val => {
-      if (!val || val.length === 0) {
+      const { length } = val;
+      if (!val || length === 0) {
         return 'Service type cannot be empty';
       }
       return null;

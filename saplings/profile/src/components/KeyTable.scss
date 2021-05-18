@@ -86,9 +86,9 @@
       font-style: normal;
       font-weight: bold;
       font-size: 12px;
-      color: #545454;
       padding: 0% 2%;
-      background: #E4E4E4E4;
+      color: var(--color-text-lighter--on-dark);
+      background: var(--color-grey);
       text-align: left;
     }
 
