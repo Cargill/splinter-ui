@@ -113,14 +113,16 @@ export const ServiceTable = ({
             <NodeDisplay node={node} />
           </td>
           <td className="arguments">
-            {Object.entries(service.arguments).map(([key, value]) => {
-              return (
-                <React.Fragment key={key}>
-                  {`${key}: ${value}`}
-                  <br />
-                </React.Fragment>
-              );
-            })}
+            <div className="args">
+              {Object.entries(service.arguments).map(([key, value]) => {
+                return (
+                  <React.Fragment key={key}>
+                    {`${key}: ${value}`}
+                    <br />
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </td>
           {controls(service)}
         </tr>

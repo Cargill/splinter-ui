@@ -16,13 +16,17 @@
 
 .node-display {
   display: flex;
+  flex-wrap: wrap;
   padding: 0.25rem;
 
   .field-wrapper {
     display: flex;
     flex-direction: column;
     text-align: left;
-    margin-left: 1rem;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
 
     .field-header {
       font-size: 0.7rem;
@@ -33,6 +37,13 @@
       font-size: 0.8rem;
       font-weight: bold;
     }
+  }
+}
+
+.arguments {
+  .args {
+    display: flex;
+    flex-wrap: wrap;
   }
 }
 
@@ -49,12 +60,12 @@
     font-weight: 100;
     font-size: 0.8rem;
     text-align: left;
-    background-color: var(--background-color-white);
+    background-color: transparent;
     padding: 0 0 0.5rem 0;
   }
 
   th, td {
-    border-bottom: 1px solid var(--color-light-grey);
+    border-bottom: 1px solid var(--color-grey);
     max-width: 13rem;
     white-space: pre;
   }

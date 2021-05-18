@@ -25,7 +25,7 @@ import './CircuitsTable.scss';
 const CircuitsTable = ({ circuits, dispatch }) => {
   let rows = (
     <tr key="empty">
-      <td colSpan="6" className="no-circuits-msg">
+      <td colSpan="7" className="no-circuits-msg">
         No circuits found
       </td>
     </tr>
