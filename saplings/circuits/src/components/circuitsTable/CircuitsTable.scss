@@ -36,7 +36,7 @@
     }
 
     th, td {
-      border-bottom: 1px solid var(--color-light-grey);
+      border-bottom: 1px solid var(--color-grey);
       max-width: 13rem;
       white-space: pre;
     }
@@ -52,7 +52,7 @@
       text-align: left;
       cursor: pointer;
       padding: 0 0 0.5rem 0;
-      background-color: var(--background-color-white);
+      background-color: transparent;
       position: -webkit-sticky;
       position: sticky;
       top:0;
