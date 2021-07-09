@@ -241,7 +241,7 @@ export function Profile({keys, setKeys}) {
 
   return (
     <div id="profile">
-      <section className="profile-info">
+      <section className="profile-header">
         <div className="profile-block">
           <div className="profile-photo">
             <DisplayProfilePicture image={profile.picture} />
