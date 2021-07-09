@@ -59,12 +59,11 @@ services:
         --advertised-endpoints tcps://splinterd-alpha:8044 \
         --node-id alpha-node-000 \
         --service-endpoint tcp://0.0.0.0:8043 \
-        --storage yaml \
         --tls-client-cert /etc/splinter/certs/client.crt \
         --tls-client-key /etc/splinter/certs/private/client.key \
         --tls-server-cert /etc/splinter/certs/server.crt \
         --tls-server-key /etc/splinter/certs/private/server.key \
-        --enable-biome \
+        --enable-biome-credentials \
         --database postgres://admin:admin@splinter-db-alpha:5432/splinter \
         --tls-insecure
       "
@@ -129,12 +128,11 @@ services:
         --advertised-endpoints tcps://splinterd-beta:8044 \
         --node-id beta-node-000 \
         --service-endpoint tcp://0.0.0.0:8043 \
-        --storage yaml \
         --tls-client-cert /etc/splinter/certs/client.crt \
         --tls-client-key /etc/splinter/certs/private/client.key \
         --tls-server-cert /etc/splinter/certs/server.crt \
         --tls-server-key /etc/splinter/certs/private/server.key \
-        --enable-biome \
+        --enable-biome-credentials \
         --database postgres://admin:admin@splinter-db-beta:5432/splinter \
         --tls-insecure
       "
