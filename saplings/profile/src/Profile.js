@@ -242,12 +242,14 @@ export function Profile({keys, setKeys}) {
   return (
     <div id="profile">
       <section className="profile-info">
-        <div className="profile-photo">
-          <DisplayProfilePicture image={profile.picture} />
-        </div>
-        <div className="user-details">
-          <div className="name">{profile.name}</div>
-          <div className="email">{profile.email}</div>
+        <div className="profile-block">
+          <div className="profile-photo">
+            <DisplayProfilePicture image={profile.picture} />
+          </div>
+          <div className="user-details">
+            <div className="name">{profile.name}</div>
+            <div className="email">{profile.email}</div>
+          </div>
         </div>
       </section>
       <section id="user-key-table">
