@@ -125,7 +125,7 @@ export function AddKeyForm({ successFn }) {
       {!loading && (
         <MultiStepForm
           formName="Add key"
-          handleSubmit={submitAddKey}
+          handleSubmit={() => submitAddKey()}
           disabled={
             !(
               state.name &&
