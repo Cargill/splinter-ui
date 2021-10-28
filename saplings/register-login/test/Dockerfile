@@ -13,7 +13,7 @@
 # limitations under the License.
 
 # Dockerfile for running unit tests and lint on the register-login sapling
-FROM node:lts-alpine
+FROM node:14.18.1-alpine3.11
 
 WORKDIR /saplings/register-login
 
