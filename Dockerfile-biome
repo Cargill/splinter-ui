@@ -61,7 +61,7 @@ ARG REPO_VERSION
 RUN tar c -z . -f ../splinter_saplings_v${REPO_VERSION}.tar.gz
 
 # prod stage
-FROM httpd:2.4 as prod-stage
+FROM httpd:2.4.51 as prod-stage
 
 COPY --from=canopy-app-build-stage /splinter_ui/splinter_ui_v*.tar.gz /tmp
 RUN tar -xzvf /tmp/splinter_ui_*.tar.gz -C /usr/local/apache2/htdocs/
