@@ -66,7 +66,7 @@ const CircuitDetails = () => {
     const fetchNodes = async () => {
       if (user && circuitState.circuit) {
         try {
-          const apiNodes = await getNodeRegistry();
+          const apiNodes = await getNodeRegistry(user.token);
           const filteredNodes = apiNodes.filter(
             node =>
               !!circuitState.circuit.members.find(id => id === node.identity)
