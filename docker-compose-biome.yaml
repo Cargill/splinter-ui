@@ -57,7 +57,7 @@ services:
         fi && \
         splinter database migrate -C postgres://admin:admin@splinter-db-alpha:5432/splinter && \
         splinter keygen --system --skip && \
-        splinterd -vv \
+        splinterd -v \
         --registries http://registry-server:80/registry.yaml \
         --rest-api-endpoint http://0.0.0.0:8085 \
         --network-endpoints tcps://0.0.0.0:8044 \
@@ -98,6 +98,50 @@ services:
     environment:
       SPLINTER_URL: 'http://splinterd-alpha:8085'
 
+  alpha-node-permissions:
+    image: splintercommunity/splinter-cli:experimental
+    volumes:
+      - alpha-keys:/alpha_keys
+    depends_on:
+      - splinterd-alpha
+    command: |
+      bash -c "
+      # This service simulates the work that would normally be done by an admin, assigning
+      # the necessary permissions to the logged in users. This should be used for example
+      # purposes only.
+        # check if splinterd-alpha is available (will get 401 because no auth is provided)
+        while [[ $$(curl --write-out %{http_code} --silent --output /dev/null http://splinterd-alpha:8085/status) -ne 401 ]] ; do
+            >&2 echo \"splinterd is unavailable - sleeping\"
+            sleep 1
+        done
+        num_users=0
+        # while splinterd-alpha is running assign the admin role to all logged in users
+        while [[ $$(curl --write-out %{http_code} --silent --output /dev/null http://splinterd-alpha:8085/status) -eq 401 ]] ; do
+          # check that the list of splinter users is not empty
+          alpha_users=$$(splinter user list --url http://splinterd-alpha:8085 --key /alpha_keys/alpha.priv --format csv | sed 1d | grep -o '^[^,]\+')
+          while [[ -z $$alpha_users ]] ; do
+            sleep 5
+            alpha_users=$$(splinter user list --url http://splinterd-alpha:8085 --key /alpha_keys/alpha.priv --format csv | sed 1d | grep -o '^[^,]\+')
+          done
+          if [ $$num_users -ne $$(echo $$alpha_users | wc -w) ]
+          then
+            num_users=$$(echo $$alpha_users | wc -w)
+            for user_id in $$alpha_users ; do
+              # check that the admin role has not already been assigned
+              if [[ $$(splinter authid show --url http://splinterd-alpha:8085 --key /alpha_keys/alpha.priv --id-user $$user_id) != *"admin"* ]]
+              then
+                splinter authid create \
+                  --url http://splinterd-alpha:8085 \
+                  --key /alpha_keys/alpha.priv \
+                  --role admin \
+                  --id-user $$user_id
+              fi
+            done
+          fi
+          sleep 5
+        done
+      "
+
 # ---== beta node ==---
 
   splinterd-beta:
@@ -131,7 +175,7 @@ services:
         fi && \
         splinter database migrate -C postgres://admin:admin@splinter-db-beta:5432/splinter && \
         splinter keygen --system --skip && \
-        splinterd -vv \
+        splinterd -v \
         --registries http://registry-server:80/registry.yaml \
         --rest-api-endpoint http://0.0.0.0:8085 \
         --network-endpoints tcps://0.0.0.0:8044 \
@@ -171,6 +215,50 @@ services:
       - '3031:80'
     environment:
       SPLINTER_URL: 'http://splinterd-beta:8085'
+
+  beta-node-permissions:
+    image: splintercommunity/splinter-cli:experimental
+    volumes:
+      - beta-keys:/beta_keys
+    depends_on:
+      - splinterd-beta
+    command: |
+      bash -c "
+      # This service simulates the work that would normally be done by an admin, assigning
+      # the necessary permissions to the logged in users. This should be used for example
+      # purposes only.
+        # check if splinterd-beta is available (will get 401 because no auth is provided)
+        while [[ $$(curl --write-out %{http_code} --silent --output /dev/null http://splinterd-beta:8085/status) -ne 401 ]] ; do
+            >&2 echo \"splinterd is unavailable - sleeping\"
+            sleep 1
+        done
+        num_users=0
+        # while splinterd-beta is running assign the admin role to all logged in users
+        while [[ $$(curl --write-out %{http_code} --silent --output /dev/null http://splinterd-beta:8085/status) -eq 401 ]] ; do
+          # check that the list of splinter users is not empty
+          beta_users=$$(splinter user list --url http://splinterd-beta:8085 --key /beta_keys/beta.priv --format csv | sed 1d | grep -o '^[^,]\+')
+          while [[ -z $$beta_users ]] ; do
+            sleep 5
+            beta_users=$$(splinter user list --url http://splinterd-beta:8085 --key /beta_keys/beta.priv --format csv | sed 1d | grep -o '^[^,]\+')
+          done
+          if [ $$num_users -ne $$(echo $$beta_users | wc -w) ]
+          then
+            num_users=$$(echo $$beta_users | wc -w)
+            for user_id in $$beta_users ; do
+              # check that the admin role has not already been assigned
+              if [[ $$(splinter authid show --url http://splinterd-beta:8085 --key /beta_keys/beta.priv --id-user $$user_id) != *"admin"* ]]
+              then
+                splinter authid create \
+                  --url http://splinterd-beta:8085 \
+                  --key /beta_keys/beta.priv \
+                  --role admin \
+                  --id-user $$user_id
+              fi
+            done
+          fi
+          sleep 5
+        done
+      "
 
 # ---== shared services ==---
 
