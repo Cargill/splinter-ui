@@ -78,7 +78,7 @@ export function Profile({keys, setKeys}) {
               window.location.href = `${window.location.origin}/login`;
               break;
             }
-            case 404: {
+            case 500: {
               if (user) {
                 setProfile({
                   ...profile,
