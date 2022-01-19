@@ -17,8 +17,10 @@
 import React from 'react';
 import { useLocalNodeState } from '../state/localNode';
 import { useCircuitsState } from '../state/circuits';
+import { checkUserCircuitPermission } from '../state/permissions';
 
 import CircuitsTable from './circuitsTable/Table';
+import { PermissionError } from './PermissionError';
 
 import './Content.scss';
 
@@ -34,8 +36,19 @@ const Content = () => {
     ).length;
   }
 
+  const permission = checkUserCircuitPermission();
+
   return (
     <div className="main-content">
+      <div
+        className={
+          !permission.circuitPermission
+            ? 'permission-error-message'
+            : 'no-permission-error-message'
+        }
+      >
+        <PermissionError />
+      </div>
       <div className="midContent">
         <div className="circuit-stats">
           <div className="stat total-circuits">
