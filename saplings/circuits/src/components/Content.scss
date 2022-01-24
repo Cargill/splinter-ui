@@ -21,6 +21,10 @@
   margin: 2.5rem 3rem 0 3rem;
   max-height: 75%;
 
+  .no-permission-error-message {
+    visibility: hidden;
+  }
+
   .midContent {
     display: flex;
     flex-direction: row;

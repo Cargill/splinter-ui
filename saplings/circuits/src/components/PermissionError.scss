@@ -1,0 +1,66 @@
+/**
+ * Copyright 2018-2021 Cargill Incorporated
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+.permission-page-block {
+   background-color: rgba(255,255,255,.5);
+   z-index: 9999999;
+   top: 0;
+   left: 75px;
+   right: 0;
+   bottom: 0;
+   position: fixed;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+
+   .permission-error-box {
+      background-color: var(--color-light-grey);
+      border-radius: 10px;
+      display: flex;
+      height: 200px;
+      width: 500px;
+      border: 1px solid var(--color-grey);
+
+      .permission-error {
+         display: flex;
+         flex-direction: column;
+
+            .error-header {
+               display: flex;
+               flex-direction: row;
+               padding-left: 20px;
+               padding-right: 20px;
+               padding-top: 20px;
+         
+            .error-header-icon {
+               padding-right: 10px;
+               padding-left: 10px;
+               color: var(--color-attention);
+            }
+            .error-header-text {
+               font-weight: bold;
+               color: var(--color-grey);
+               display: flex;
+               align-self: center;
+            }
+         }
+         .error-text {
+            color: var(--color-grey);
+            padding: 20px;
+         }
+      }
+   }
+}
