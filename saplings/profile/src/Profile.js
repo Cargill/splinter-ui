@@ -31,6 +31,7 @@ import { AddKeyForm } from './forms/AddKeyForm';
 import { UpdateKeyForm } from './forms/UpdateKeyForm';
 import { EnterPasswordForm } from './forms/EnterPasswordForm';
 import { OverlayModal } from './OverlayModal';
+import { HelpBox } from './components/HelpBox';
 import { http } from './http';
 
 export function Profile({keys, setKeys}) {
@@ -241,14 +242,19 @@ export function Profile({keys, setKeys}) {
 
   return (
     <div id="profile">
-      <section className="profile-info">
-        <div className="profile-photo">
-          <DisplayProfilePicture image={profile.picture} />
+      <section className="profile-header">
+        <div className="profile-block">
+          <div className="profile-photo">
+            <DisplayProfilePicture image={profile.picture} />
+          </div>
+          <div className="user-details">
+            <div className="name">{profile.name}</div>
+            <div className="email">{profile.email}</div>
+          </div>
         </div>
-        <div className="user-details">
-          <div className="name">{profile.name}</div>
-          <div className="email">{profile.email}</div>
-        </div>
+        <HelpBox helpText="The key table holds your signing keys.
+        Only one key may be active at a time, the active key will
+        be used to sign transactions."/>
       </section>
       <section id="user-key-table">
         <div className='keys-header'>
